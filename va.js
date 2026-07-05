@@ -18,6 +18,14 @@ bot.command("id", (ctx) => {
     ctx.reply(`ID của bạn: ${ctx.from.id}`);
 });
 
+bot.command("admin", async (ctx) => {
+    if (!isAdmin(ctx)) {
+        return ctx.reply("❌ Bạn không phải admin.");
+    }
+
+    ctx.reply("👑 Admin Panel");
+});
+
 bot.launch();
 
 console.log("BOT ONLINE");
