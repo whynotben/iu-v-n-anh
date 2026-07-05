@@ -10,12 +10,16 @@ bot.command("ping", (ctx) => {
     ctx.reply("🏓 Pong!");
 });
 
-bot.on("text", (ctx) => {
-    ctx.reply(`Bạn nói: ${ctx.message.text}`);
+bot.command("id", (ctx) => {
+
+    ctx.reply(`ID của bạn: ${ctx.from.id}`);
+
 });
 
-bot.command("id", (ctx) => {
-    ctx.reply(`ID của bạn: ${ctx.from.id}`);
+bot.on("text", (ctx) => {
+
+    ctx.reply(`Bạn nói: ${ctx.message.text}`);
+
 });
 
 bot.command("admin", async (ctx) => {
