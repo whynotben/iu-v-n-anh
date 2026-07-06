@@ -125,13 +125,31 @@ bot.command("admin", async (ctx) => {
     if (!isAdmin(ctx.from.id))
         return await sendMessage(ctx, "❌ Không có quyền");
 
-    await sendMessage(ctx, `👑 Menu Admin
+    await sendMessage(ctx, `👑 MENU ADMIN
 
-/addadmin 
-/deladmin 
+🛡 Quản lý nhóm
+/ban
+/kick
+/mute
+/unmute
+/warn
+/unwarn
+
+👥 Quản trị
+/addadmin
+/deladmin
 /listadmin
+
+📌 Thông tin
 /getid
-/clear`);
+/userinfo
+
+⚙️ Hệ thống
+/clear
+/stats
+
+⏱ Khác
+/uptime`);
 });
 
 bot.command("addadmin", async (ctx) => {
