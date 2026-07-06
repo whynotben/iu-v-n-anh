@@ -157,6 +157,7 @@ bot.command("admin", async (ctx) => {
 
 🛡 Quản lý nhóm
 /ban
+/unban
 /kick
 /mute
 /unmute
@@ -300,6 +301,39 @@ bot.command("ban", async (ctx) => {
         await sendMessage(
             ctx,
             "❌ Không thể ban.\nKiểm tra bot đã có quyền Ban users chưa."
+        );
+    }
+});
+
+bot.command("unban", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return await sendMessage(
+            ctx,
+            "📌 Reply vào người cần unban."
+        );
+    }
+
+    try {
+        await ctx.telegram.unbanChatMember(
+            ctx.chat.id,
+            reply.from.id
+        );
+
+        await sendMessage(
+            ctx,
+            `✅ Đã gỡ ban ${reply.from.first_name}`
+        );
+    } catch (err) {
+        console.log(err);
+
+        await sendMessage(
+            ctx,
+            "❌ Không thể unban."
         );
     }
 });
