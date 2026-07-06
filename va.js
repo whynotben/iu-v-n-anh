@@ -3,6 +3,7 @@ const cron = require("node-cron");
 const fs = require("fs");
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHAT_ID = -1004359631890;
+const START_TIME = Date.now();
 
 const BOT_MESSAGES = new Map();
 
@@ -80,6 +81,25 @@ bot.command("ping", async (ctx) => {
 
 bot.command("id", async (ctx) => {
     await sendMessage(ctx, `ID của bạn: ${ctx.from.id}`);
+});
+
+bot.command("uptime", async (ctx) => {
+    const uptime = Math.floor((Date.now() - START_TIME) / 1000);
+
+    const days = Math.floor(uptime / 86400);
+    const hours = Math.floor((uptime % 86400) / 3600);
+    const minutes = Math.floor((uptime % 3600) / 60);
+    const seconds = uptime % 60;
+
+    await sendMessage(
+        ctx,
+        `🟢 Uptime Bot
+
+📅 ${days} ngày
+🕒 ${hours} giờ
+⏰ ${minutes} phút
+⏱ ${seconds} giây`
+    );
 });
 
 bot.command("admin", async (ctx) => {
