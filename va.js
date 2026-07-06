@@ -338,6 +338,98 @@ bot.command("unban", async (ctx) => {
     }
 });
 
+bot.command("mute", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return await sendMessage(
+            ctx,
+            "📌 Reply vào người cần mute."
+        );
+    }
+
+    try {
+        await ctx.telegram.restrictChatMember(
+            ctx.chat.id,
+            reply.from.id,
+            {
+                permissions: {
+                    can_send_messages: false,
+                    can_send_audios: false,
+                    can_send_documents: false,
+                    can_send_photos: false,
+                    can_send_videos: false,
+                    can_send_video_notes: false,
+                    can_send_voice_notes: false,
+                    can_send_polls: false,
+                    can_send_other_messages: false,
+                    can_add_web_page_previews: false
+                }
+            }
+        );
+
+        await sendMessage(
+            ctx,
+            `🔇 Đã mute ${reply.from.first_name}`
+        );
+    } catch (err) {
+        console.log(err);
+        await sendMessage(
+            ctx,
+            "❌ Không thể mute.\nKiểm tra quyền Restrict Members của bot."
+        );
+    }
+});
+
+bot.command("unmute", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return await sendMessage(
+            ctx,
+            "📌 Reply vào người cần unmute."
+        );
+    }
+
+    try {
+        await ctx.telegram.restrictChatMember(
+            ctx.chat.id,
+            reply.from.id,
+            {
+                permissions: {
+                    can_send_messages: true,
+                    can_send_audios: true,
+                    can_send_documents: true,
+                    can_send_photos: true,
+                    can_send_videos: true,
+                    can_send_video_notes: true,
+                    can_send_voice_notes: true,
+                    can_send_polls: true,
+                    can_send_other_messages: true,
+                    can_add_web_page_previews: true
+                }
+            }
+        );
+
+        await sendMessage(
+            ctx,
+            `🔊 Đã unmute ${reply.from.first_name}`
+        );
+    } catch (err) {
+        console.log(err);
+        await sendMessage(
+            ctx,
+            "❌ Không thể unmute."
+        );
+    }
+});
+
 bot.command("clear", async (ctx) => {
     if (!isAdmin(ctx.from.id))
         return await sendMessage(ctx, "❌ Không có quyền");
