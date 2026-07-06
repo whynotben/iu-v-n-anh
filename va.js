@@ -20,59 +20,70 @@ bot.on("text", (ctx) => {
     ctx.reply(`Bạn nói: ${ctx.message.text}`);
 });
 
-bot.command("listadmin", (ctx) => {
-    if (!ADMINS.includes(ctx.from.id)) return;
+bot.command("admin", (ctx) => {
+
+    if (!isAdmin(ctx.from.id)) return ctx.reply("❌ Không có quyền");
 
     ctx.reply(
-        "👑 Danh sách admin:\n\n" +
-        ADMINS.map(id => `• ${id}`).join("\n")
+
+`👑 Menu Admin
+
+/addadmin <id>
+
+/deladmin <id>
+
+/listadmin`
+
     );
+
 });
 
 bot.command("addadmin", (ctx) => {
-    if (!ADMINS.includes(ctx.from.id)) return;
 
-    const id = Number(
-        ctx.message.text.replace("/addadmin", "").trim()
-    );
+    if (!isAdmin(ctx.from.id)) return;
 
-    if (!id) {
-        return ctx.reply("Ví dụ:\n/addadmin 123456789");
-    }
+    const id = Number(ctx.message.text.split(" ")[1]);
 
-    if (ADMINS.includes(id)) {
-        return ctx.reply("❌ Admin đã tồn tại.");
-    }
+    if (!id) return ctx.reply("Ví dụ: /addadmin 123456789");
 
-    ADMINS.push(id);
+    if (!ADMINS.includes(id))
+
+        ADMINS.push(id);
 
     ctx.reply(`✅ Đã thêm admin ${id}`);
+
 });
 
 bot.command("deladmin", (ctx) => {
-    if (!ADMINS.includes(ctx.from.id)) return;
 
-    const id = Number(
-        ctx.message.text.replace("/deladmin", "").trim()
-    );
+    if (!isAdmin(ctx.from.id)) return;
+
+    const id = Number(ctx.message.text.split(" ")[1]);
 
     const index = ADMINS.indexOf(id);
 
-    if (index === -1) {
-        return ctx.reply("❌ Không tìm thấy admin.");
-    }
+    if (index === -1)
+
+        return ctx.reply("Không tìm thấy.");
 
     ADMINS.splice(index, 1);
 
-    ctx.reply(`🗑 Đã xóa admin ${id}`);
+    ctx.reply(`🗑 Đã xoá ${id}`);
+
 });
 
-bot.command("admin", async (ctx) => {
-    if (!isAdmin(ctx)) {
-        return ctx.reply("❌ Bạn không phải admin.");
-    }
+bot.command("listadmin", (ctx) => {
 
-    ctx.reply("👑 Admin Panel");
+    if (!isAdmin(ctx.from.id)) return;
+
+    ctx.reply(
+
+        "👑 Danh sách Admin:\n\n" +
+
+        ADMINS.map((id, i) => `${i + 1}. ${id}`).join("\n")
+
+    );
+
 });
 
 bot.launch();
