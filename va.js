@@ -243,6 +243,36 @@ bot.command("getid", async (ctx) => {
 );
 });
 
+bot.command("userinfo", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return await sendMessage(
+            ctx,
+            "📌 Hãy reply vào tin nhắn của người cần xem thông tin."
+        );
+    }
+
+    const user = reply.from;
+
+    await sendMessage(ctx, `👤 THÔNG TIN NGƯỜI DÙNG
+
+🆔 ID: ${user.id}
+👤 Tên: ${user.first_name || "Không có"}
+
+📛 Username:
+${user.username ? "@" + user.username : "Không có"}
+
+🌐 Ngôn ngữ:
+${user.language_code || "Không rõ"}
+
+🤖 Bot:
+${user.is_bot ? "Có" : "Không"}`);
+});
+
 bot.command("clear", async (ctx) => {
     if (!isAdmin(ctx.from.id))
         return await sendMessage(ctx, "❌ Không có quyền");
