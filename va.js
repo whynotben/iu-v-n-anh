@@ -273,6 +273,37 @@ ${user.language_code || "Không rõ"}
 ${user.is_bot ? "Có" : "Không"}`);
 });
 
+bot.command("ban", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return await sendMessage(
+            ctx,
+            "📌 Reply vào người cần ban."
+        );
+    }
+
+    try {
+        await ctx.telegram.banChatMember(
+            ctx.chat.id,
+            reply.from.id
+        );
+
+        await sendMessage(
+            ctx,
+            `🚫 Đã ban ${reply.from.first_name}`
+        );
+    } catch (err) {
+        await sendMessage(
+            ctx,
+            "❌ Không thể ban.\nKiểm tra bot đã có quyền Ban users chưa."
+        );
+    }
+});
+
 bot.command("clear", async (ctx) => {
     if (!isAdmin(ctx.from.id))
         return await sendMessage(ctx, "❌ Không có quyền");
