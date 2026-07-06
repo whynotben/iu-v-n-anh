@@ -1,4 +1,4 @@
-const { Telegraf } = require("telegraf");
+const { Telegraf, Input } = require("telegraf");
 const cron = require("node-cron");
 const fs = require("fs");
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -187,9 +187,19 @@ bot.command("chatid", async (ctx) => {
     await ctx.reply(`CHAT ID: ${ctx.chat.id}`);
 });
 
-cron.schedule("0 8 * * *", async () => {
+cron.schedule("* * * * *", async () => {
     try {
-        await bot.telegram.sendMessage(CHAT_ID, "🌅 Hi, buổi sáng vui vẻ! Hiện tại đang là 08:00");
+        await bot.telegram.sendPhoto(
+            CHAT_ID,
+            Input.fromLocalFile("vk.JPG"),
+            {
+                caption: `🌅 Hi, buổi sáng vui vẻ!
+
+⏰ Hiện tại đang là 08:00
+
+❤️ Chúc bạn một ngày thật nhiều năng lượng!`
+            }
+        );
     } catch (e) {
         console.log(e);
     }
