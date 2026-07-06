@@ -155,7 +155,17 @@ bot.command("clear", async (ctx) => {
     await ctx.reply("3");
 
     const messages = BOT_MESSAGES.get(ctx.chat.id) || [];
-    await ctx.reply(JSON.stringify(messages));
+
+for (const id of messages) {
+    try {
+        await ctx.telegram.deleteMessage(ctx.chat.id, id);
+        await ctx.reply(`Đã xóa ${id}`);
+    } catch (e) {
+        await ctx.reply(e.description || e.message);
+    }
+}
+
+BOT_MESSAGES.set(ctx.chat.id, []);
 });
 
 bot.hears(/^(hi|hello|xin chào)$/i, async (ctx) => {
