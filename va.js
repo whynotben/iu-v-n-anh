@@ -2,6 +2,7 @@ const { Telegraf } = require("telegraf");
 const cron = require("node-cron");
 const fs = require("fs");
 const bot = new Telegraf(process.env.BOT_TOKEN);
+const CHAT_ID = -1004359631890;
 
 const BOT_MESSAGES = new Map();
 
