@@ -92,6 +92,23 @@ bot.on("text", (ctx) => {
     ctx.reply(`Bạn nói: ${ctx.message.text}`);
 });
 
+bot.command("getid", (ctx) => {
+    if (!isAdmin(ctx.from.id)) {
+        return ctx.reply("❌ Không có quyền.");
+    }
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return ctx.reply("📌 Hãy reply vào tin nhắn của người cần lấy ID.\n\nVí dụ:\n1. Nhấn giữ tin nhắn của họ.\n2. Chọn Reply.\n3. Gửi /getid");
+    }
+
+    ctx.reply(
+`👤 Tên: ${reply.from.first_name}
+🆔 ID: ${reply.from.id}`
+    );
+});
+
 bot.launch();
 
 console.log("BOT ONLINE");
