@@ -30,36 +30,29 @@ async function sendMessage(ctx, text) {
     return msg;
 }
 
-bot.start((ctx) => {
-    ctx.reply("🤖 Bot đã hoạt động!");
+bot.start(async (ctx) => {
+    await sendMessage(ctx, "🤖 Bot đã hoạt động!");
 });
 
 bot.command("ping", async (ctx) => {
     await autoDelete(ctx, "🏓 Pong!", 300000);
 });
 
-bot.command("id", (ctx) => {
-
-    ctx.reply(`ID của bạn: ${ctx.from.id}`);
-
+bot.command("id", async (ctx) => {
+    await sendMessage(ctx, `ID của bạn: ${ctx.from.id}`);
 });
 
-bot.command("admin", (ctx) => {
+bot.command("admin", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền");
 
-    if (!isAdmin(ctx.from.id)) return ctx.reply("❌ Không có quyền");
-
-    ctx.reply(
-
-`👑 Menu Admin
+    await sendMessage(ctx, `👑 Menu Admin
 
 /addadmin 
-
 /deladmin 
-
-/listadmin`
-
-    );
-
+/listadmin
+/getid
+/clear`);
 });
 
 bot.command("addadmin", (ctx) => {
@@ -68,17 +61,17 @@ bot.command("addadmin", (ctx) => {
 
     const id = Number(ctx.message.text.split(" ")[1]);
 
-    if (!id) return ctx.reply("Ví dụ: /addadmin 123456789");
+    if (!id) return await sendMessage(ctx, "Ví dụ: /addadmin 123456789");
 
     if (!ADMINS.includes(id))
 
         ADMINS.push(id);
 
-    ctx.reply(`✅ Đã thêm admin ${id}`);
+    await sendMessage(ctx, `✅ Đã thêm admin ${id}`);
 
 });
 
-bot.command("deladmin", (ctx) => {
+bot.command("deladmin", async (ctx) => {
 
     if (!isAdmin(ctx.from.id)) return;
 
@@ -88,19 +81,19 @@ bot.command("deladmin", (ctx) => {
 
     if (index === -1)
 
-        return ctx.reply("Không tìm thấy.");
+        return await sendMessage(ctx, "Không tìm thấy.");
 
     ADMINS.splice(index, 1);
 
-    ctx.reply(`🗑 Đã xoá ${id}`);
+    await sendMessage(ctx, `🗑 Đã xoá ${id}`);
 
 });
 
-bot.command("listadmin", (ctx) => {
+bot.command("listadmin", async (ctx) => {
 
     if (!isAdmin(ctx.from.id)) return;
 
-    ctx.reply(
+    await sendMessage(ctx, ...)
 
         "👑 Danh sách Admin:\n\n" +
 
@@ -110,7 +103,7 @@ bot.command("listadmin", (ctx) => {
 
 });
 
-bot.command("getid", (ctx) => {
+bot.command("getid", async (ctx) => {
     if (!isAdmin(ctx.from.id)) {
         return ctx.reply("❌ Không có quyền.");
     }
@@ -121,7 +114,7 @@ bot.command("getid", (ctx) => {
         return ctx.reply("📌 Hãy reply vào tin nhắn của người cần lấy ID.\n\nVí dụ:\n1. Nhấn giữ tin nhắn của họ.\n2. Chọn Reply.\n3. Gửi /getid");
     }
 
-    ctx.reply(
+    await sendMessage(ctx, ...)
 `👤 Tên: ${reply.from.first_name}
 🆔 ID: ${reply.from.id}`
     );
