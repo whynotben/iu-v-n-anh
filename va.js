@@ -107,6 +107,34 @@ bot.command("uptime", async (ctx) => {
     );
 });
 
+bot.command("stats", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const mem = process.memoryUsage();
+
+    const uptime = Math.floor((Date.now() - START_TIME) / 1000);
+
+    const days = Math.floor(uptime / 86400);
+    const hours = Math.floor((uptime % 86400) / 3600);
+    const minutes = Math.floor((uptime % 3600) / 60);
+    const seconds = uptime % 60;
+
+    await sendMessage(ctx, `📊 THỐNG KÊ BOT
+
+👑 Owner: ${OWNER_ID}
+👮 Admin: ${ADMINS.length}
+
+💾 RAM:
+${(mem.rss / 1024 / 1024).toFixed(2)} MB
+
+⚙️ Node:
+${process.version}
+
+⏱ Uptime:
+${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`);
+});
+
 bot.command("owner", async (ctx) => {
     if (!isOwner(ctx.from.id))
         return await sendMessage(ctx, "❌ Chỉ Owner mới được sử dụng lệnh này.");
