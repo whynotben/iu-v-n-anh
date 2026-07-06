@@ -4,20 +4,35 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const BOT_MESSAGES = new Map();
 
-async function autoDelete(ctx, text, delay = 300000) {
+const ADMINS = [6879658839];
+function isAdmin(id) {
+    return ADMINS.includes(id);
+}
+
+async function sendMessage(ctx, text, delay = 300000) {
     const msg = await ctx.reply(text);
+
+    if (!BOT_MESSAGES.has(ctx.chat.id)) {
+        BOT_MESSAGES.set(ctx.chat.id, []);
+    }
+
+    BOT_MESSAGES.get(ctx.chat.id).push(msg.message_id);
 
     setTimeout(async () => {
         try {
             await ctx.telegram.deleteMessage(ctx.chat.id, msg.message_id);
         } catch {}
+
+        const arr = BOT_MESSAGES.get(ctx.chat.id) || [];
+        BOT_MESSAGES.set(
+            ctx.chat.id,
+            arr.filter(id => id !== msg.message_id)
+        );
     }, delay);
+
+    return msg;
 }
 
-const ADMINS = [6879658839];
-function isAdmin(id) {
-    return ADMINS.includes(id);
-}
 async function autoDelete(ctx, text, delay = 300000) {
     const msg = await ctx.reply(text);
 
@@ -112,15 +127,14 @@ bot.command("listadmin", async (ctx) => {
 
 bot.command("getid", async (ctx) => {
     if (!isAdmin(ctx.from.id)) {
-        return ctx.reply("❌ Không có quyền.");
+        return await sendMessage(ctx, "❌ Không có quyền.");
     }
 
     const reply = ctx.message.reply_to_message;
 
     if (!reply) {
-    return ctx.reply(
-        "📌 Hãy reply vào tin nhắn của người cần lấy ID.\n\nVí dụ:\n1. Nhấn giữ tin nhắn..."
-    );
+    return await sendMessage(ctx, "📌 Hãy reply vào tin nhắn...");
+    
 }
 
     await sendMessage(ctx,
@@ -147,8 +161,8 @@ bot.command("clear", async (ctx) => {
     } catch {}
 });
 
-bot.hears(/^(hi|hello|xin chào)$/i, (ctx) => {
-    ctx.reply("👋 Chào bạn, chúc bạn một ngày tốt lành!");
+bot.hears(/^(hi|hello|xin chào)$/i, async (ctx) => {
+    await sendMessage(ctx, "👋 Chào bạn, chúc bạn một ngày tốt lành!");
 });
 
 bot.launch();
