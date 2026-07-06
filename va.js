@@ -177,6 +177,10 @@ bot.hears(/^(hi|hello|xin chào)$/i, async (ctx) => {
     await sendMessage(ctx, "👋 Chào bạn, chúc bạn một ngày tốt lành!");
 });
 
+bot.command("whoami", async (ctx) => {
+    await ctx.reply(String(ctx.from.id));
+});
+
 bot.launch();
 
 console.log("BOT ONLINE");
