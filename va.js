@@ -93,13 +93,10 @@ bot.command("listadmin", async (ctx) => {
 
     if (!isAdmin(ctx.from.id)) return;
 
-    await sendMessage(ctx, ...)
-
-        "👑 Danh sách Admin:\n\n" +
-
-        ADMINS.map((id, i) => `${i + 1}. ${id}`).join("\n")
-
-    );
+    await sendMessage(ctx,
+    "👑 Danh sách Admin:\n\n" +
+    ADMINS.map((id, i) => `${i + 1}. ${id}`).join("\n")
+);
 
 });
 
