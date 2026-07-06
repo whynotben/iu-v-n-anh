@@ -3,6 +3,7 @@ const cron = require("node-cron");
 const fs = require("fs");
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHAT_ID = -1004359631890;
+const OWNER_ID = 1087968824;
 const START_TIME = Date.now();
 
 const BOT_MESSAGES = new Map();
@@ -23,6 +24,10 @@ function saveAdmins() {
 
 function isAdmin(id) {
     return ADMINS.includes(id);
+}
+
+function isOwner(id) {
+    return id === OWNER_ID;
 }
 
 async function sendMessage(ctx, text, delay = 300000) {
@@ -100,6 +105,20 @@ bot.command("uptime", async (ctx) => {
 ⏰ ${minutes} phút
 ⏱ ${seconds} giây`
     );
+});
+
+bot.command("owner", async (ctx) => {
+    if (!isOwner(ctx.from.id))
+        return await sendMessage(ctx, "❌ Chỉ Owner mới được sử dụng lệnh này.");
+
+    await sendMessage(ctx, `👑 MENU OWNER
+
+/admin
+/stats
+/restart
+/broadcast
+
+(Đang phát triển...)`);
 });
 
 bot.command("admin", async (ctx) => {
