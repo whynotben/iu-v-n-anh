@@ -108,13 +108,15 @@ bot.command("getid", async (ctx) => {
     const reply = ctx.message.reply_to_message;
 
     if (!reply) {
-        return ctx.reply("📌 Hãy reply vào tin nhắn của người cần lấy ID.\n\nVí dụ:\n1. Nhấn giữ tin nhắn của họ.\n2. Chọn Reply.\n3. Gửi /getid");
-    }
+    return ctx.reply(
+        "📌 Hãy reply vào tin nhắn của người cần lấy ID.\n\nVí dụ:\n1. Nhấn giữ tin nhắn..."
+    );
+}
 
-    await sendMessage(ctx, ...)
+    await sendMessage(ctx,
 `👤 Tên: ${reply.from.first_name}
 🆔 ID: ${reply.from.id}`
-    );
+);
 });
 
 bot.command("clear", async (ctx) => {
