@@ -1,7 +1,12 @@
 const { Telegraf } = require("telegraf");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
-const ADMIN_ID = 6879658839;
+const ADMINS = [6879658839];
+
+function isAdmin(id) {
+    return ADMINS.includes(id);
+}
+
 bot.start((ctx) => {
     ctx.reply("🤖 Bot đã hoạt động!");
 });
