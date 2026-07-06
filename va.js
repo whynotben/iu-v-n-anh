@@ -2,6 +2,8 @@ const { Telegraf } = require("telegraf");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
+const BOT_MESSAGES = new Map();
+
 async function autoDelete(ctx, text, delay = 300000) {
     const msg = await ctx.reply(text);
 
@@ -15,6 +17,17 @@ async function autoDelete(ctx, text, delay = 300000) {
 const ADMINS = [6879658839];
 function isAdmin(id) {
     return ADMINS.includes(id);
+}
+async function sendMessage(ctx, text) {
+    const msg = await ctx.reply(text);
+
+    if (!BOT_MESSAGES.has(ctx.chat.id)) {
+        BOT_MESSAGES.set(ctx.chat.id, []);
+    }
+
+    BOT_MESSAGES.get(ctx.chat.id).push(msg.message_id);
+
+    return msg;
 }
 
 bot.start((ctx) => {
@@ -112,6 +125,24 @@ bot.command("getid", (ctx) => {
 `👤 Tên: ${reply.from.first_name}
 🆔 ID: ${reply.from.id}`
     );
+});
+
+bot.command("clear", async (ctx) => {
+    if (!isAdmin(ctx.from.id)) return;
+
+    const messages = BOT_MESSAGES.get(ctx.chat.id) || [];
+
+    for (const id of messages) {
+        try {
+            await ctx.telegram.deleteMessage(ctx.chat.id, id);
+        } catch {}
+    }
+
+    BOT_MESSAGES.set(ctx.chat.id, []);
+
+    try {
+        await ctx.deleteMessage(); // xóa luôn lệnh /clear
+    } catch {}
 });
 
 bot.hears(/^(hi|hello|xin chào)$/i, (ctx) => {
