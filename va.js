@@ -1,8 +1,18 @@
 const { Telegraf } = require("telegraf");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
-const ADMINS = [6879658839];
 
+async function autoDelete(ctx, text, delay = 300000) {
+    const msg = await ctx.reply(text);
+
+    setTimeout(async () => {
+        try {
+            await ctx.telegram.deleteMessage(ctx.chat.id, msg.message_id);
+        } catch {}
+    }, delay);
+}
+
+const ADMINS = [6879658839];
 function isAdmin(id) {
     return ADMINS.includes(id);
 }
@@ -12,7 +22,7 @@ bot.start((ctx) => {
 });
 
 bot.command("ping", (ctx) => {
-    ctx.reply("🏓 Pong!");
+    await autoDelete(ctx, "🏓 Pong!", 300000);
 });
 
 bot.command("id", (ctx) => {
