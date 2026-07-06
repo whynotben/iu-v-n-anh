@@ -144,21 +144,33 @@ bot.command("getid", async (ctx) => {
 });
 
 bot.command("clear", async (ctx) => {
-    if (!isAdmin(ctx.from.id)) return;
+    console.log("ADMIN:", ctx.from.id);
+    console.log("CHAT:", ctx.chat.id);
+    console.log("MESSAGES:", BOT_MESSAGES.get(ctx.chat.id));
+
+    if (!isAdmin(ctx.from.id)) {
+        console.log("NOT ADMIN");
+        return;
+    }
 
     const messages = BOT_MESSAGES.get(ctx.chat.id) || [];
-    console.log("BOT_MESSAGES:", messages);
+
     for (const id of messages) {
         try {
             await ctx.telegram.deleteMessage(ctx.chat.id, id);
-        } catch {}
+            console.log("Deleted:", id);
+        } catch (e) {
+            console.log(e.description || e);
+        }
     }
 
     BOT_MESSAGES.set(ctx.chat.id, []);
 
     try {
-        await ctx.deleteMessage(); // xóa luôn lệnh /clear
-    } catch {}
+        await ctx.deleteMessage();
+    } catch (e) {
+        console.log(e.description || e);
+    }
 });
 
 bot.hears(/^(hi|hello|xin chào)$/i, async (ctx) => {
