@@ -22,6 +22,53 @@ bot.on("text", (ctx) => {
 
 });
 
+bot.command("listadmin", (ctx) => {
+    if (!ADMINS.includes(ctx.from.id)) return;
+
+    ctx.reply(
+        "👑 Danh sách admin:\n\n" +
+        ADMINS.map(id => `• ${id}`).join("\n")
+    );
+});
+
+bot.command("addadmin", (ctx) => {
+    if (!ADMINS.includes(ctx.from.id)) return;
+
+    const id = Number(
+        ctx.message.text.replace("/addadmin", "").trim()
+    );
+
+    if (!id) {
+        return ctx.reply("Ví dụ:\n/addadmin 123456789");
+    }
+
+    if (ADMINS.includes(id)) {
+        return ctx.reply("❌ Admin đã tồn tại.");
+    }
+
+    ADMINS.push(id);
+
+    ctx.reply(`✅ Đã thêm admin ${id}`);
+});
+
+bot.command("deladmin", (ctx) => {
+    if (!ADMINS.includes(ctx.from.id)) return;
+
+    const id = Number(
+        ctx.message.text.replace("/deladmin", "").trim()
+    );
+
+    const index = ADMINS.indexOf(id);
+
+    if (index === -1) {
+        return ctx.reply("❌ Không tìm thấy admin.");
+    }
+
+    ADMINS.splice(index, 1);
+
+    ctx.reply(`🗑 Đã xóa admin ${id}`);
+});
+
 bot.command("admin", async (ctx) => {
     if (!isAdmin(ctx)) {
         return ctx.reply("❌ Bạn không phải admin.");
