@@ -104,9 +104,8 @@ bot.command("getid", (ctx) => {
     );
 });
 
-bot.on("text", (ctx) => {
-    if (ctx.message.text.startsWith("/")) return;
-    ctx.reply(`Bạn nói: ${ctx.message.text}`);
+bot.hears(/^(hi|hello|xin chào)$/i, (ctx) => {
+    ctx.reply("👋 Chào bạn, chúc bạn một ngày tốt lành!");
 });
 
 bot.launch();
