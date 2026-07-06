@@ -187,7 +187,7 @@ bot.command("chatid", async (ctx) => {
     await ctx.reply(`CHAT ID: ${ctx.chat.id}`);
 });
 
-cron.schedule("* * * * *", async () => {
+cron.schedule("0 8 * * *", async () => {
     try {
         await bot.telegram.sendPhoto(
             CHAT_ID,
