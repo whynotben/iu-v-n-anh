@@ -144,15 +144,17 @@ bot.command("getid", async (ctx) => {
 });
 
 bot.command("clear", async (ctx) => {
-    console.log("CLEAR");
-    console.log(ctx.from.id);
-    console.log(isAdmin(ctx.from.id));
+    await ctx.reply("1");
 
     if (!isAdmin(ctx.from.id)) {
-        return ctx.reply("Không phải admin");
+        await ctx.reply("2");
+        return;
     }
 
-    ctx.reply("Đã vào clear");
+    await ctx.reply("3");
+
+    const messages = BOT_MESSAGES.get(ctx.chat.id) || [];
+    await ctx.reply(JSON.stringify(messages));
 });
 
 bot.hears(/^(hi|hello|xin chào)$/i, async (ctx) => {
