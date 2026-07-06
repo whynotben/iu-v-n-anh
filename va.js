@@ -17,7 +17,6 @@ async function sendMessage(ctx, text, delay = 300000) {
     }
 
     BOT_MESSAGES.get(ctx.chat.id).push(msg.message_id);
-await ctx.reply("Đã lưu");
     
     setTimeout(async () => {
         try {
