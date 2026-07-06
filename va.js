@@ -55,7 +55,7 @@ bot.command("admin", async (ctx) => {
 /clear`);
 });
 
-bot.command("addadmin", (ctx) => {
+bot.command("addadmin", async (ctx) => {
 
     if (!isAdmin(ctx.from.id)) return;
 
