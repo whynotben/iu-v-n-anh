@@ -87,11 +87,6 @@ bot.command("listadmin", (ctx) => {
 
 });
 
-bot.on("text", (ctx) => {
-    if (ctx.message.text.startsWith("/")) return;
-    ctx.reply(`Bạn nói: ${ctx.message.text}`);
-});
-
 bot.command("getid", (ctx) => {
     if (!isAdmin(ctx.from.id)) {
         return ctx.reply("❌ Không có quyền.");
@@ -107,6 +102,11 @@ bot.command("getid", (ctx) => {
 `👤 Tên: ${reply.from.first_name}
 🆔 ID: ${reply.from.id}`
     );
+});
+
+bot.on("text", (ctx) => {
+    if (ctx.message.text.startsWith("/")) return;
+    ctx.reply(`Bạn nói: ${ctx.message.text}`);
 });
 
 bot.launch();
