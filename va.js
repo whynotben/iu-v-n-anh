@@ -207,24 +207,34 @@ bot.command("chatid", async (ctx) => {
     await ctx.reply(`CHAT ID: ${ctx.chat.id}`);
 });
 
-const now = new Date();
-const time = now.toLocaleTimeString("vi-VN", {
-    timeZone: "Asia/Ho_Chi_Minh",
-    hour: "2-digit",
-    minute: "2-digit"
-});
+cron.schedule("0 8 * * *", async () => {
+    try {
 
-await bot.telegram.sendPhoto(
-    CHAT_ID,
-    Input.fromLocalFile("vk.JPG"),
-    {
-        caption: `🌅 Chào buổi sáng!
+        const now = new Date();
+        const time = now.toLocaleTimeString("vi-VN", {
+            timeZone: "Asia/Ho_Chi_Minh",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+        await bot.telegram.sendPhoto(
+            CHAT_ID,
+            Input.fromLocalFile("vk.JPG"),
+            {
+                caption: `🌅 Chào buổi sáng!
 
 ⏰ Hiện tại đang là ${time}
 
 ❤️ Chúc bạn một ngày thật nhiều năng lượng!`
+            }
+        );
+
+    } catch (e) {
+        console.log(e);
     }
-);
+}, {
+    timezone: "Asia/Ho_Chi_Minh"
+});
 
 cron.schedule("0 12 * * *", async () => {
     try {
