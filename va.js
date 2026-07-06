@@ -16,12 +16,6 @@ bot.command("id", (ctx) => {
 
 });
 
-bot.on("text", (ctx) => {
-
-    ctx.reply(`Bạn nói: ${ctx.message.text}`);
-
-});
-
 bot.command("listadmin", (ctx) => {
     if (!ADMINS.includes(ctx.from.id)) return;
 
@@ -77,6 +71,11 @@ bot.command("admin", async (ctx) => {
     ctx.reply("👑 Admin Panel");
 });
 
+bot.on("text", (ctx) => {
+
+    ctx.reply(`Bạn nói: ${ctx.message.text}`);
+
+});
 bot.launch();
 
 console.log("BOT ONLINE");
