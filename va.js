@@ -34,7 +34,7 @@ bot.start((ctx) => {
     ctx.reply("🤖 Bot đã hoạt động!");
 });
 
-bot.command("ping", (ctx) => {
+bot.command("ping", async (ctx) => {
     await autoDelete(ctx, "🏓 Pong!", 300000);
 });
 
