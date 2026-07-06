@@ -145,25 +145,21 @@ bot.command("getid", async (ctx) => {
 });
 
 bot.command("clear", async (ctx) => {
-    await ctx.reply("1");
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền");
 
-    if (!isAdmin(ctx.from.id)) {
-        await ctx.reply("2");
-        return;
+    const messages = [...(BOT_MESSAGES.get(ctx.chat.id) || [])];
+
+    for (const id of messages) {
+        try {
+            await ctx.telegram.deleteMessage(ctx.chat.id, id);
+        } catch {}
     }
 
-    await ctx.reply("3");
+    BOT_MESSAGES.set(ctx.chat.id, []);
 
-    const messages = BOT_MESSAGES.get(ctx.chat.id) || [];
-
-for (const id of messages) {
-    try {
-        await ctx.telegram.deleteMessage(ctx.chat.id, id);
-        await ctx.reply(`Đã xóa ${id}`);
-    } catch (e) {
-        await ctx.reply(e.description || e.message);
-    }
-}
+    await sendMessage(ctx, "✅ Đã xóa toàn bộ tin nhắn của bot.");
+});
 
 BOT_MESSAGES.set(ctx.chat.id, []);
 });
