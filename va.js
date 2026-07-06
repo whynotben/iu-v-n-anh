@@ -187,7 +187,7 @@ bot.command("chatid", async (ctx) => {
     await ctx.reply(`CHAT ID: ${ctx.chat.id}`);
 });
 
-cron.schedule("0 8 * * *", async () => {
+cron.schedule("* * * * *", async () => {
     try {
         await bot.telegram.sendMessage(CHAT_ID, "🌅 Hi, buổi sáng vui vẻ! Hiện tại đang là 08:00");
     } catch (e) {
