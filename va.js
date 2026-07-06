@@ -182,6 +182,40 @@ bot.command("whoami", async (ctx) => {
     await ctx.reply(String(ctx.from.id));
 });
 
+bot.command("chatid", async (ctx) => {
+    await ctx.reply(`CHAT ID: ${ctx.chat.id}`);
+});
+
+cron.schedule("0 8 * * *", async () => {
+    try {
+        await bot.telegram.sendMessage(CHAT_ID, "🌅 Hi, buổi sáng vui vẻ! Hiện tại đang là 08:00");
+    } catch (e) {
+        console.log(e);
+    }
+}, {
+    timezone: "Asia/Ho_Chi_Minh"
+});
+
+cron.schedule("0 12 * * *", async () => {
+    try {
+        await bot.telegram.sendMessage(CHAT_ID, "☀️ Hi, buổi trưa vui vẻ! Hiện tại đang là 12:00");
+    } catch (e) {
+        console.log(e);
+    }
+}, {
+    timezone: "Asia/Ho_Chi_Minh"
+});
+
+cron.schedule("0 18 * * *", async () => {
+    try {
+        await bot.telegram.sendMessage(CHAT_ID, "🌙 Hi, buổi tối vui vẻ! Hiện tại đang là 18:00");
+    } catch (e) {
+        console.log(e);
+    }
+}, {
+    timezone: "Asia/Ho_Chi_Minh"
+});
+
 bot.launch();
 
 console.log("BOT ONLINE");
