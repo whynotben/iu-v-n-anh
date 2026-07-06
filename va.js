@@ -187,17 +187,36 @@ bot.command("chatid", async (ctx) => {
     await ctx.reply(`CHAT ID: ${ctx.chat.id}`);
 });
 
-cron.schedule("0 8 * * *", async () => {
+const now = new Date();
+const time = now.toLocaleTimeString("vi-VN", {
+    timeZone: "Asia/Ho_Chi_Minh",
+    hour: "2-digit",
+    minute: "2-digit"
+});
+
+await bot.telegram.sendPhoto(
+    CHAT_ID,
+    Input.fromLocalFile("vk.JPG"),
+    {
+        caption: `🌅 Chào buổi sáng!
+
+⏰ Hiện tại đang là ${time}
+
+❤️ Chúc bạn một ngày thật nhiều năng lượng!`
+    }
+);
+
+cron.schedule("0 12 * * *", async () => {
     try {
         await bot.telegram.sendPhoto(
             CHAT_ID,
             Input.fromLocalFile("vk.JPG"),
             {
-                caption: `🌅 Hi, buổi sáng vui vẻ!
+                caption: `☀️ Hi, buổi trưa vui vẻ!
 
-⏰ Hiện tại đang là 08:00
+⏰ Hiện tại đang là 12:00
 
-❤️ Chúc bạn một ngày thật nhiều năng lượng!`
+🍱 Đừng quên ăn trưa và nghỉ ngơi nhé ❤️`
             }
         );
     } catch (e) {
@@ -207,19 +226,19 @@ cron.schedule("0 8 * * *", async () => {
     timezone: "Asia/Ho_Chi_Minh"
 });
 
-cron.schedule("0 12 * * *", async () => {
-    try {
-        await bot.telegram.sendMessage(CHAT_ID, "☀️ Hi, buổi trưa vui vẻ! Hiện tại đang là 12:00");
-    } catch (e) {
-        console.log(e);
-    }
-}, {
-    timezone: "Asia/Ho_Chi_Minh"
-});
-
 cron.schedule("0 18 * * *", async () => {
     try {
-        await bot.telegram.sendMessage(CHAT_ID, "🌙 Hi, buổi tối vui vẻ! Hiện tại đang là 18:00");
+        await bot.telegram.sendPhoto(
+            CHAT_ID,
+            Input.fromLocalFile("vk.JPG"),
+            {
+                caption: `🌙 Hi, buổi tối vui vẻ!
+
+⏰ Hiện tại đang là 18:00
+
+🌃 Chúc bạn có một buổi tối thật vui vẻ ❤️`
+            }
+        );
     } catch (e) {
         console.log(e);
     }
