@@ -17,6 +17,7 @@ bot.command("id", (ctx) => {
 });
 
 bot.on("text", (ctx) => {
+    if (ctx.message.text.startsWith("/")) return;
     ctx.reply(`Bạn nói: ${ctx.message.text}`);
 });
 
