@@ -29,9 +29,9 @@ bot.command("admin", (ctx) => {
 
 `👑 Menu Admin
 
-/addadmin <id>
+/addadmin 
 
-/deladmin <id>
+/deladmin 
 
 /listadmin`
 
