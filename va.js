@@ -18,7 +18,7 @@ const ADMINS = [6879658839];
 function isAdmin(id) {
     return ADMINS.includes(id);
 }
-async function sendMessage(ctx, text) {
+async function autoDelete(ctx, text, delay = 300000) {
     const msg = await ctx.reply(text);
 
     if (!BOT_MESSAGES.has(ctx.chat.id)) {
@@ -27,7 +27,17 @@ async function sendMessage(ctx, text) {
 
     BOT_MESSAGES.get(ctx.chat.id).push(msg.message_id);
 
-    return msg;
+    setTimeout(async () => {
+        try {
+            await ctx.telegram.deleteMessage(ctx.chat.id, msg.message_id);
+        } catch {}
+
+        const arr = BOT_MESSAGES.get(ctx.chat.id) || [];
+        BOT_MESSAGES.set(
+            ctx.chat.id,
+            arr.filter(id => id !== msg.message_id)
+        );
+    }, delay);
 }
 
 bot.start(async (ctx) => {
