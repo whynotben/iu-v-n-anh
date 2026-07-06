@@ -133,7 +133,7 @@ bot.command("clear", async (ctx) => {
     if (!isAdmin(ctx.from.id)) return;
 
     const messages = BOT_MESSAGES.get(ctx.chat.id) || [];
-
+    console.log("BOT_MESSAGES:", messages);
     for (const id of messages) {
         try {
             await ctx.telegram.deleteMessage(ctx.chat.id, id);
