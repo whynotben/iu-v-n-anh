@@ -161,9 +161,6 @@ bot.command("clear", async (ctx) => {
     await sendMessage(ctx, "✅ Đã xóa toàn bộ tin nhắn của bot.");
 });
 
-BOT_MESSAGES.set(ctx.chat.id, []);
-});
-
 bot.hears(/^(hi|hello|xin chào)$/i, async (ctx) => {
     await sendMessage(ctx, "👋 Chào bạn, chúc bạn một ngày tốt lành!");
 });
