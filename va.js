@@ -1,10 +1,23 @@
 const { Telegraf } = require("telegraf");
-
+const fs = require("fs");
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const BOT_MESSAGES = new Map();
 
-const ADMINS = [1087968824];
+const ADMIN_FILE = "admins.json";
+
+let ADMINS = [1087968824];
+
+if (fs.existsSync(ADMIN_FILE)) {
+    try {
+        ADMINS = JSON.parse(fs.readFileSync(ADMIN_FILE, "utf8"));
+    } catch {}
+}
+
+function saveAdmins() {
+    fs.writeFileSync(ADMIN_FILE, JSON.stringify(ADMINS, null, 2));
+}
+
 function isAdmin(id) {
     return ADMINS.includes(id);
 }
@@ -91,7 +104,7 @@ bot.command("addadmin", async (ctx) => {
     if (!ADMINS.includes(id))
 
         ADMINS.push(id);
-
+        saveAdmins();
     await sendMessage(ctx, `✅ Đã thêm admin ${id}`);
 
 });
@@ -109,7 +122,7 @@ bot.command("deladmin", async (ctx) => {
         return await sendMessage(ctx, "Không tìm thấy.");
 
     ADMINS.splice(index, 1);
-
+    saveAdmins();
     await sendMessage(ctx, `🗑 Đã xoá ${id}`);
 
 });
