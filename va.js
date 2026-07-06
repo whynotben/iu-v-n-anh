@@ -4,7 +4,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const BOT_MESSAGES = new Map();
 
-const ADMINS = [6879658839];
+const ADMINS = [1087968824];
 function isAdmin(id) {
     return ADMINS.includes(id);
 }
@@ -144,33 +144,15 @@ bot.command("getid", async (ctx) => {
 });
 
 bot.command("clear", async (ctx) => {
-    console.log("ADMIN:", ctx.from.id);
-    console.log("CHAT:", ctx.chat.id);
-    console.log("MESSAGES:", BOT_MESSAGES.get(ctx.chat.id));
+    console.log("CLEAR");
+    console.log(ctx.from.id);
+    console.log(isAdmin(ctx.from.id));
 
     if (!isAdmin(ctx.from.id)) {
-        console.log("NOT ADMIN");
-        return;
+        return ctx.reply("Không phải admin");
     }
 
-    const messages = BOT_MESSAGES.get(ctx.chat.id) || [];
-
-    for (const id of messages) {
-        try {
-            await ctx.telegram.deleteMessage(ctx.chat.id, id);
-            console.log("Deleted:", id);
-        } catch (e) {
-            console.log(e.description || e);
-        }
-    }
-
-    BOT_MESSAGES.set(ctx.chat.id, []);
-
-    try {
-        await ctx.deleteMessage();
-    } catch (e) {
-        console.log(e.description || e);
-    }
+    ctx.reply("Đã vào clear");
 });
 
 bot.hears(/^(hi|hello|xin chào)$/i, async (ctx) => {
