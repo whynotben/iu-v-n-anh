@@ -799,6 +799,117 @@ ${date}
     );
 });
 
+bot.command("benlopxe", async (ctx) => {
+    const stories = [
+`💔 Chuyện của Kha & Vân Anh
+
+"Từng hứa sẽ cùng nhau già đi...
+Cuối cùng chỉ còn Kha giữ lời hứa."`,
+
+`🌙 Có những người...
+
+Đến để dạy ta cách yêu,
+rồi lặng lẽ rời đi.
+
+Kha vẫn ổn...
+chỉ là đôi lúc nhớ Vân Anh.`,
+
+`💭 Kha từng hỏi:
+
+"Nếu hôm đó mình cố gắng thêm một chút...
+liệu em còn ở đây không?"`,
+
+`🍂 Người ta bảo:
+
+"Thời gian sẽ chữa lành mọi thứ."
+
+Nhưng đến giờ...
+Kha vẫn chưa quên được Vân Anh.`,
+
+`💔 Điều đáng tiếc nhất...
+
+Không phải là chia tay.
+
+Mà là sau chia tay...
+chúng ta trở thành người xa lạ.`,
+
+`🌧️ Có những cơn mưa...
+
+Làm Kha nhớ Vân Anh nhiều hơn bình thường.`,
+
+`🕊️ Hạnh phúc nhất...
+
+Là thấy người mình từng yêu được bình yên.
+
+Dù người bên cạnh không còn là mình.`,
+
+`💬 Giá như...
+
+Hôm đó cả hai chịu ngồi lại nói chuyện.
+
+Có lẽ mọi thứ đã khác.`,
+
+`🌌 Thanh xuân của Kha...
+
+Có một người tên Vân Anh.`,
+
+`💙 Có những lời xin lỗi...
+
+Đến quá muộn.`,
+
+`📖 Chúng ta từng là cả thế giới của nhau.
+
+Giờ chỉ còn là người từng quen.`,
+
+`🌠 Có lẽ...
+
+Định mệnh chỉ cho phép gặp nhau,
+không cho phép ở bên nhau.`,
+
+`💭 Kha vẫn giữ những tấm ảnh cũ.
+
+Chỉ là không còn đủ can đảm để mở xem.`,
+
+`🍃 Đôi khi...
+
+Im lặng là cách yêu cuối cùng.`,
+
+`🌙 Nếu được quay lại...
+
+Kha vẫn sẽ chọn gặp Vân Anh.
+
+Dù biết trước kết thúc.`,
+
+`❤️ Người đầu tiên khiến Kha biết yêu...
+
+Cũng là người đầu tiên khiến Kha biết đau.`,
+
+`☕ Một ly cà phê.
+
+Một bản nhạc cũ.
+
+Và một người không còn ở đây.`,
+
+`🌧️ Không phải Kha chưa quên.
+
+Chỉ là đã học cách giấu đi.`,
+
+`💌 Có những tin nhắn...
+
+Viết xong rồi lại xoá.
+
+Giống như tình cảm chưa từng nói ra.`,
+
+`🌸 Chúc Vân Anh luôn hạnh phúc.
+
+Đó là điều cuối cùng Kha còn có thể làm.`
+    ];
+
+    const random = stories[Math.floor(Math.random() * stories.length)];
+
+    await sendMessage(ctx, random);
+});
+
 bot.launch();
 
 console.log("BOT ONLINE");
