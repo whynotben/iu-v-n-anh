@@ -438,11 +438,43 @@ bot.command("warn", async (ctx) => {
 
     if (!WARNS[id]) WARNS[id] = 0;
 
-    WARNS[id]++;
+WARNS[id]++;
 
-    saveWarns();
+saveWarns();
 
-    await sendMessage(
+if (WARNS[id] >= 3) {
+    try {
+        await ctx.telegram.restrictChatMember(
+            ctx.chat.id,
+            reply.from.id,
+            {
+                permissions: {
+                    can_send_messages: false,
+                    can_send_audios: false,
+                    can_send_documents: false,
+                    can_send_photos: false,
+                    can_send_videos: false,
+                    can_send_video_notes: false,
+                    can_send_voice_notes: false,
+                    can_send_polls: false,
+                    can_send_other_messages: false,
+                    can_add_web_page_previews: false
+                }
+            }
+        );
+
+        await sendMessage(
+            ctx,
+            `🔇 ${reply.from.first_name} đã đạt ${WARNS[id]}/3 cảnh cáo.\n\nĐã tự động mute.`
+        );
+
+        return;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+await sendMessage(
         ctx,
         `⚠️ ${reply.from.first_name} đã bị cảnh cáo.\n\nTổng cảnh cáo: ${WARNS[id]}/3`
     );
