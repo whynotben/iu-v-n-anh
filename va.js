@@ -9,6 +9,12 @@ const START_TIME = Date.now();
 const BOT_MESSAGES = new Map();
 
 const ADMIN_FILE = "admins.json";
+const OWNER_ID = 1087968824;
+
+const DEFAULT_ADMINS = [
+    6879658839,
+    8382726689
+];
 const WARN_FILE = "warns.json";
 
 let ADMINS = [1087968824];
@@ -35,7 +41,13 @@ function saveWarns() {
 }
 
 function isAdmin(id) {
-    return ADMINS.includes(id);
+    id = Number(id);
+
+    return (
+        id === OWNER_ID ||
+        DEFAULT_ADMINS.includes(id) ||
+        ADMINS.includes(id)
+    );
 }
 
 function isOwner(id) {
