@@ -183,6 +183,7 @@ bot.command("admin", async (ctx) => {
 /stats
 
 ⏱ Khác
+/say
 /uptime`);
 });
 
