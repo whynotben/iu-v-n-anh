@@ -16,7 +16,6 @@ const DEFAULT_ADMINS = [
     8382726689
 ];
     
-];
 const WARN_FILE = "warns.json";
 
 let ADMINS = [1087968824];
