@@ -638,6 +638,41 @@ cron.schedule("0 18 * * *", async () => {
     timezone: "Asia/Ho_Chi_Minh"
 });
 
+bot.on("new_chat_members", async (ctx) => {
+    const members = ctx.message.new_chat_members;
+
+    for (const user of members) {
+        const now = new Date();
+
+        const date = now.toLocaleDateString("vi-VN", {
+            timeZone: "Asia/Ho_Chi_Minh"
+        });
+
+        await ctx.replyWithVideo(
+            Input.fromLocalFile("welcome.mp4"),
+            {
+                caption: `╔════════════════════╗
+     🎉 WELCOME 🎉
+╚════════════════════╝
+
+👤 Thành viên:
+${user.first_name}
+
+🆔 ID:
+${user.id}
+
+📅 Tham gia:
+${date}
+
+📖 Đọc nội quy:
+/rules
+
+💬 Chúc bạn có khoảng thời gian vui vẻ ❤️`
+            }
+        );
+    }
+});
+
 bot.launch();
 
 console.log("BOT ONLINE");
