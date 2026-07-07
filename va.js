@@ -9,7 +9,7 @@ const START_TIME = Date.now();
 const BOT_MESSAGES = new Map();
 
 const ADMIN_FILE = "admins.json";
-const OWNER_ID = 1087968824;
+
 
 const DEFAULT_ADMINS = [
     6879658839,
