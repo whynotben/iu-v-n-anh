@@ -154,6 +154,7 @@ bot.command("admin", async (ctx) => {
 /warn
 /unwarn
 /warnlist
+/resetwarn
 
 👥 Quản trị
 /addadmin
@@ -438,45 +439,81 @@ bot.command("warn", async (ctx) => {
 
     if (!WARNS[id]) WARNS[id] = 0;
 
-WARNS[id]++;
+    WARNS[id]++;
 
-saveWarns();
+    saveWarns();
 
-if (WARNS[id] >= 3) {
-    try {
-        await ctx.telegram.restrictChatMember(
-            ctx.chat.id,
-            reply.from.id,
-            {
-                permissions: {
-                    can_send_messages: false,
-                    can_send_audios: false,
-                    can_send_documents: false,
-                    can_send_photos: false,
-                    can_send_videos: false,
-                    can_send_video_notes: false,
-                    can_send_voice_notes: false,
-                    can_send_polls: false,
-                    can_send_other_messages: false,
-                    can_add_web_page_previews: false
-                }
-            }
-        );
+    // 6 WARN = AUTO KICK
+    if (WARNS[id] >= 6) {
+        try {
+            await ctx.telegram.banChatMember(
+                ctx.chat.id,
+                reply.from.id
+            );
 
-        await sendMessage(
-            ctx,
-            `🔇 ${reply.from.first_name} đã đạt ${WARNS[id]}/3 cảnh cáo.\n\nĐã tự động mute.`
-        );
+            await ctx.telegram.unbanChatMember(
+                ctx.chat.id,
+                reply.from.id
+            );
 
-        return;
-    } catch (err) {
-        console.log(err);
+            delete WARNS[id];
+            saveWarns();
+
+            return await sendMessage(
+                ctx,
+                `👢 ${reply.from.first_name} đã đạt 6/6 cảnh cáo.
+
+🚪 Đã tự động kick khỏi nhóm.`
+            );
+        } catch (err) {
+            console.log(err);
+
+            return await sendMessage(
+                ctx,
+                "❌ Không thể kick thành viên."
+            );
+        }
     }
-}
 
-await sendMessage(
+    // 3 WARN = AUTO MUTE
+    if (WARNS[id] >= 3) {
+        try {
+            await ctx.telegram.restrictChatMember(
+                ctx.chat.id,
+                reply.from.id,
+                {
+                    permissions: {
+                        can_send_messages: false,
+                        can_send_audios: false,
+                        can_send_documents: false,
+                        can_send_photos: false,
+                        can_send_videos: false,
+                        can_send_video_notes: false,
+                        can_send_voice_notes: false,
+                        can_send_polls: false,
+                        can_send_other_messages: false,
+                        can_add_web_page_previews: false
+                    }
+                }
+            );
+
+            return await sendMessage(
+                ctx,
+                `🔇 ${reply.from.first_name} đã đạt ${WARNS[id]}/6 cảnh cáo.
+
+⚠️ Đã tự động mute.
+📝 Đủ 6 cảnh cáo sẽ bị kick khỏi nhóm.`
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    await sendMessage(
         ctx,
-        `⚠️ ${reply.from.first_name} đã bị cảnh cáo.\n\nTổng cảnh cáo: ${WARNS[id]}/3`
+        `⚠️ ${reply.from.first_name} đã bị cảnh cáo.
+
+📊 Tổng cảnh cáo: ${WARNS[id]}/6`
     );
 });
 
@@ -513,6 +550,37 @@ bot.command("unwarn", async (ctx) => {
     await sendMessage(
         ctx,
         `✅ Đã gỡ 1 cảnh cáo của ${reply.from.first_name}\n\nCòn lại: ${WARNS[id] || 0}/3`
+    );
+});
+
+bot.command("resetwarn", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return await sendMessage(
+            ctx,
+            "📌 Reply vào người cần reset cảnh cáo."
+        );
+    }
+
+    const id = String(reply.from.id);
+
+    if (!WARNS[id]) {
+        return await sendMessage(
+            ctx,
+            "ℹ️ Người này chưa có cảnh cáo."
+        );
+    }
+
+    delete WARNS[id];
+    saveWarns();
+
+    await sendMessage(
+        ctx,
+        `✅ Đã reset toàn bộ cảnh cáo của ${reply.from.first_name}.`
     );
 });
 
