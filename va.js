@@ -652,10 +652,10 @@ bot.on("new_chat_members", async (ctx) => {
             Input.fromLocalFile("welcome.mp4"),
             {
                 caption: `╔════════════════════╗
-     🎉 WELCOME 🎉
+      🎉 NEW PLAYER 🎉
 ╚════════════════════╝
 
-👤 Thành viên:
+👤 Người chơi:
 ${user.first_name}
 
 🆔 ID:
@@ -664,13 +664,47 @@ ${user.id}
 📅 Tham gia:
 ${date}
 
-📖 Đọc nội quy:
-/rules
+🎮 Một người chơi mới đã tham gia server.
 
-💬 Chúc bạn có khoảng thời gian vui vẻ ❤️`
+❤️ HP: 100%
+⚠️ Đừng thử sức Admin nếu chưa muốn bay màu.
+
+🍀 Chúc mày may mắn và sống sót!
+
+GG!`
             }
         );
     }
+});
+
+bot.on("left_chat_member", async (ctx) => {
+    const user = ctx.message.left_chat_member;
+
+    const date = new Date().toLocaleString("vi-VN", {
+        timeZone: "Asia/Ho_Chi_Minh"
+    });
+
+    await ctx.replyWithVideo(
+        Input.fromLocalFile("welcome.mp4"),
+        {
+            caption: `╔════════════════════╗
+      👋 GOODBYE 👋
+╚════════════════════╝
+
+👤 Thành viên:
+${user.first_name}
+
+🆔 ID:
+${user.id}
+
+📅 Rời nhóm:
+${date}
+
+📉 Dân số nhóm vừa giảm 1.
+
+🍀 Chúc mày may mắn ở server khác.`
+        }
+    );
 });
 
 bot.launch();
