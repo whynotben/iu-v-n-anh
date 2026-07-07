@@ -9,6 +9,7 @@ const START_TIME = Date.now();
 const BOT_MESSAGES = new Map();
 
 const ADMIN_FILE = "admins.json";
+const WARN_FILE = "warns.json";
 
 let ADMINS = [1087968824];
 
@@ -20,6 +21,17 @@ if (fs.existsSync(ADMIN_FILE)) {
 
 function saveAdmins() {
     fs.writeFileSync(ADMIN_FILE, JSON.stringify(ADMINS, null, 2));
+}
+let WARNS = {};
+
+if (fs.existsSync(WARN_FILE)) {
+    try {
+        WARNS = JSON.parse(fs.readFileSync(WARN_FILE, "utf8"));
+    } catch {}
+}
+
+function saveWarns() {
+    fs.writeFileSync(WARN_FILE, JSON.stringify(WARNS, null, 2));
 }
 
 function isAdmin(id) {
