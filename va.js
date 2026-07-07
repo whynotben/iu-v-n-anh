@@ -568,19 +568,43 @@ bot.command("resetwarn", async (ctx) => {
 
     const id = String(reply.from.id);
 
-    if (!WARNS[id]) {
-        return await sendMessage(
-            ctx,
-            "ℹ️ Người này chưa có cảnh cáo."
-        );
-    }
-
     delete WARNS[id];
     saveWarns();
 
+    try {
+        await ctx.telegram.unbanChatMember(
+            ctx.chat.id,
+            reply.from.id
+        );
+
+        await ctx.telegram.restrictChatMember(
+            ctx.chat.id,
+            reply.from.id,
+            {
+                permissions: {
+                    can_send_messages: true,
+                    can_send_audios: true,
+                    can_send_documents: true,
+                    can_send_photos: true,
+                    can_send_videos: true,
+                    can_send_video_notes: true,
+                    can_send_voice_notes: true,
+                    can_send_polls: true,
+                    can_send_other_messages: true,
+                    can_add_web_page_previews: true
+                }
+            }
+        );
+    } catch (err) {
+        console.log(err);
+    }
+
     await sendMessage(
         ctx,
-        `✅ Đã reset toàn bộ cảnh cáo của ${reply.from.first_name}.`
+        `✅ Đã reset toàn bộ cảnh cáo của ${reply.from.first_name}.
+
+🔓 Đã gỡ mute (nếu có).
+🚪 Nếu người này từng bị kick, giờ có thể tham gia lại nhóm.`
     );
 });
 
