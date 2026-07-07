@@ -153,6 +153,7 @@ bot.command("admin", async (ctx) => {
 /unmute
 /warn
 /unwarn
+/warnlist
 
 👥 Quản trị
 /addadmin
@@ -418,6 +419,93 @@ bot.command("unmute", async (ctx) => {
             "❌ Không thể unmute."
         );
     }
+});
+
+bot.command("warn", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return await sendMessage(
+            ctx,
+            "📌 Reply vào người cần cảnh cáo."
+        );
+    }
+
+    const id = String(reply.from.id);
+
+    if (!WARNS[id]) WARNS[id] = 0;
+
+    WARNS[id]++;
+
+    saveWarns();
+
+    await sendMessage(
+        ctx,
+        `⚠️ ${reply.from.first_name} đã bị cảnh cáo.\n\nTổng cảnh cáo: ${WARNS[id]}/3`
+    );
+});
+
+bot.command("unwarn", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return await sendMessage(
+            ctx,
+            "📌 Reply vào người cần gỡ cảnh cáo."
+        );
+    }
+
+    const id = String(reply.from.id);
+
+    if (!WARNS[id] || WARNS[id] <= 0) {
+        return await sendMessage(
+            ctx,
+            "✅ Người này chưa có cảnh cáo."
+        );
+    }
+
+    WARNS[id]--;
+
+    if (WARNS[id] <= 0) {
+        delete WARNS[id];
+    }
+
+    saveWarns();
+
+    await sendMessage(
+        ctx,
+        `✅ Đã gỡ 1 cảnh cáo của ${reply.from.first_name}\n\nCòn lại: ${WARNS[id] || 0}/3`
+    );
+});
+
+bot.command("warnlist", async (ctx) => {
+    if (!isAdmin(ctx.from.id))
+        return await sendMessage(ctx, "❌ Không có quyền.");
+
+    const reply = ctx.message.reply_to_message;
+
+    if (!reply) {
+        return await sendMessage(
+            ctx,
+            "📌 Reply vào người cần xem cảnh cáo."
+        );
+    }
+
+    const id = String(reply.from.id);
+    const warns = WARNS[id] || 0;
+
+    await sendMessage(
+        ctx,
+        `📋 Cảnh cáo của ${reply.from.first_name}
+
+⚠️ ${warns}/3`
+    );
 });
 
 bot.command("clear", async (ctx) => {
