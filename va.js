@@ -30,7 +30,7 @@ function isOwner(id) {
     return id === OWNER_ID;
 }
 
-async function sendMessage(ctx, text, delay = 300000) {
+async function sendMessage(ctx, text) {
     const msg = await ctx.reply(text);
 
     if (!BOT_MESSAGES.has(ctx.chat.id)) {
@@ -38,18 +38,6 @@ async function sendMessage(ctx, text, delay = 300000) {
     }
 
     BOT_MESSAGES.get(ctx.chat.id).push(msg.message_id);
-    
-    setTimeout(async () => {
-        try {
-            await ctx.telegram.deleteMessage(ctx.chat.id, msg.message_id);
-        } catch {}
-
-        const arr = BOT_MESSAGES.get(ctx.chat.id) || [];
-        BOT_MESSAGES.set(
-            ctx.chat.id,
-            arr.filter(id => id !== msg.message_id)
-        );
-    }, delay);
 
     return msg;
 }
@@ -63,17 +51,7 @@ async function autoDelete(ctx, text, delay = 300000) {
 
     BOT_MESSAGES.get(ctx.chat.id).push(msg.message_id);
 
-    setTimeout(async () => {
-        try {
-            await ctx.telegram.deleteMessage(ctx.chat.id, msg.message_id);
-        } catch {}
 
-        const arr = BOT_MESSAGES.get(ctx.chat.id) || [];
-        BOT_MESSAGES.set(
-            ctx.chat.id,
-            arr.filter(id => id !== msg.message_id)
-        );
-    }, delay);
 }
 
 bot.start(async (ctx) => {
