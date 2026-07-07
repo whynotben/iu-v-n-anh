@@ -13,6 +13,8 @@ const OWNER_ID = 1087968824;
 
 const DEFAULT_ADMINS = [
     6879658839,
+    8382726689
+];
     
 ];
 const WARN_FILE = "warns.json";
