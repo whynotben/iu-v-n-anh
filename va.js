@@ -923,6 +923,47 @@ Giống như tình cảm chưa từng nói ra.`,
     await sendMessage(ctx, random);
 });
 
+bot.command("say", async (ctx) => {
+    if (!isAdmin(ctx.from.id)) {
+        return await sendMessage(ctx, "❌ Bạn không có quyền sử dụng lệnh này.");
+    }
+
+    if (ctx.chat.type !== "private") {
+        return await sendMessage(
+            ctx,
+            "📩 Hãy nhắn riêng với bot để sử dụng lệnh này."
+        );
+    }
+
+    const text = ctx.message.text.split(" ").slice(1).join(" ");
+
+    if (!text) {
+        return await sendMessage(
+            ctx,
+            "📌 Ví dụ:\n/say Hôm nay 20:00 sẽ bảo trì bot."
+        );
+    }
+
+    try {
+        await bot.telegram.sendMessage(
+            CHAT_ID,
+            `📢 THÔNG BÁO
+
+━━━━━━━━━━━━━━━
+
+${text}
+
+━━━━━━━━━━━━━━━
+🤖 BenDev Team`
+        );
+
+        await sendMessage(ctx, "✅ Đã gửi thông báo ẩn danh.");
+    } catch (err) {
+        console.log(err);
+        await sendMessage(ctx, "❌ Gửi thất bại.");
+    }
+});
+
 bot.launch();
 
 console.log("BOT ONLINE");
