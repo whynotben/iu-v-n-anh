@@ -18,8 +18,7 @@ const ADMIN_FILE = "admins.json";
 
 
 const DEFAULT_ADMINS = [
-    6879658839,
-    8382726689
+    6879658839
 ];
     
 const WARN_FILE = "warns.json";
