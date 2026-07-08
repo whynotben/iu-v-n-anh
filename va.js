@@ -968,6 +968,10 @@ ${text}
 });
 bot.command("html", htmlCommand);
 
+bot.command("test", (ctx) => {
+    ctx.reply("OK");
+});
+
 bot.launch();
 
 console.log("BOT ONLINE");
