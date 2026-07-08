@@ -28,22 +28,29 @@ let ADMINS = [1087968824];
 let BOT_OFF = false;
 
 bot.use(async (ctx, next) => {
-    if (!BOT_OFF) return next();
-
     const userId = ctx.from.id;
+    const text = ctx.message?.text || "";
 
-    if (userId === OWNER_ID || ADMINS.includes(userId)) {
+    // Luôn cho phép owner/admin dùng /on và /off
+    if (
+        userId === OWNER_ID ||
+        ADMINS.includes(userId) ||
+        text.startsWith("/on") ||
+        text.startsWith("/off")
+    ) {
+        return next();
+    }
+
+    if (!BOT_OFF) {
         return next();
     }
 
     return ctx.reply(
-`🚧 BOT ĐANG BẢO TRÌ
+        `🚧 BOT ĐANG BẢO TRÌ
 
 Xin lỗi, bot hiện đang tạm ngừng hoạt động.
 
-⏳ Vui lòng thử lại sau.
-
-📞 Nếu cần hỗ trợ, hãy liên hệ Admin.`,
+⏳ Vui lòng thử lại sau.`,
         Markup.inlineKeyboard([
             [
                 Markup.button.url(
