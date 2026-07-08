@@ -3,6 +3,7 @@ const cron = require("node-cron");
 const fs = require("fs");
 const htmlCommand = require("./commands/html");
 const infoCommand = require("./commands/info");
+const cssCommand = require("./commands/css");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHAT_ID = -1004359631890;
@@ -969,6 +970,7 @@ ${text}
 });
 bot.command("html", htmlCommand);
 bot.command("info", infoCommand);
+bot.command("css", cssCommand);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
