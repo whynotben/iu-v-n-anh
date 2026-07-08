@@ -1,4 +1,4 @@
-const { Telegraf, Input } = require("telegraf");
+const { Telegraf, Input, Markup } = require("telegraf");
 const cron = require("node-cron");
 const fs = require("fs");
 const htmlCommand = require("./commands/html");
@@ -33,20 +33,27 @@ bot.use(async (ctx, next) => {
 
     const userId = ctx.from.id;
 
-    // Owner và Admin vẫn dùng được
     if (userId === OWNER_ID || ADMINS.includes(userId)) {
         return next();
     }
 
-    return ctx.reply(`
-🚧 BOT ĐANG BẢO TRÌ
+    return ctx.reply(
+`🚧 BOT ĐANG BẢO TRÌ
 
 Xin lỗi, bot hiện đang tạm ngừng hoạt động.
 
 ⏳ Vui lòng thử lại sau.
 
-📞 Nếu cần hỗ trợ, hãy liên hệ Admin.
-`);
+📞 Nếu cần hỗ trợ, hãy liên hệ Admin.`,
+        Markup.inlineKeyboard([
+            [
+                Markup.button.url(
+                    "📞 Liên hệ Admin",
+                    "https://t.me/whynotben"
+                )
+            ]
+        ])
+    );
 });
 
 if (fs.existsSync(ADMIN_FILE)) {
