@@ -1036,17 +1036,6 @@ bot.command("on", async (ctx) => {
     await ctx.reply("🟢 Bot đã hoạt động trở lại.");
 });
 
-bot.command("on", async (ctx) => {
-    console.log(ctx.from.id);
-
-    if (ctx.from.id !== OWNER_ID) {
-        return ctx.reply("❌ Bạn không có quyền.");
-    }
-
-    BOT_OFF = false;
-    ctx.reply("🟢 Bot đã hoạt động trở lại.");
-});
-
 bot.launch();
 
 console.log("BOT ONLINE");
