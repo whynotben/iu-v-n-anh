@@ -23,7 +23,10 @@ const DEFAULT_ADMINS = [
     
 const WARN_FILE = "warns.json";
 
-let ADMINS = [6879658839];
+let ADMINS = [
+    1087968824,
+    6879658839
+];
 
 let BOT_OFF = false;
 
