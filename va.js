@@ -9,7 +9,7 @@ const sourceMenu = require("./commands/sourcemenu");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHAT_ID = -1004359631890;
-const OWNER_ID = 6879658839;
+const OWNER_ID = 1087968824;
 const START_TIME = Date.now();
 
 const BOT_MESSAGES = new Map();
@@ -1020,23 +1020,27 @@ bot.command("test", (ctx) => {
 });
 
 bot.command("off", async (ctx) => {
-    if (ctx.from.id !== OWNER_ID) {
+    if (
+        ctx.from.id !== OWNER_ID &&
+        !ADMINS.includes(ctx.from.id)
+    ) {
         return ctx.reply("❌ Bạn không có quyền.");
     }
 
     BOT_OFF = true;
-
-    await ctx.reply("🔴 Đã bật chế độ bảo trì.");
+    ctx.reply("🔴 Đã bật chế độ bảo trì.");
 });
 
 bot.command("on", async (ctx) => {
-    if (ctx.from.id !== OWNER_ID) {
+    if (
+        ctx.from.id !== OWNER_ID &&
+        !ADMINS.includes(ctx.from.id)
+    ) {
         return ctx.reply("❌ Bạn không có quyền.");
     }
 
     BOT_OFF = false;
-
-    await ctx.reply("🟢 Bot đã hoạt động trở lại.");
+    ctx.reply("🟢 Bot đã hoạt động trở lại.");
 });
 
 bot.launch();
