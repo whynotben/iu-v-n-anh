@@ -26,6 +26,29 @@ const WARN_FILE = "warns.json";
 
 let ADMINS = [1087968824];
 
+let BOT_OFF = false;
+
+bot.use(async (ctx, next) => {
+    if (!BOT_OFF) return next();
+
+    const userId = ctx.from.id;
+
+    // Owner và Admin vẫn dùng được
+    if (userId === OWNER_ID || ADMINS.includes(userId)) {
+        return next();
+    }
+
+    return ctx.reply(`
+🚧 BOT ĐANG BẢO TRÌ
+
+Xin lỗi, bot hiện đang tạm ngừng hoạt động.
+
+⏳ Vui lòng thử lại sau.
+
+📞 Nếu cần hỗ trợ, hãy liên hệ Admin.
+`);
+});
+
 if (fs.existsSync(ADMIN_FILE)) {
     try {
         ADMINS = JSON.parse(fs.readFileSync(ADMIN_FILE, "utf8"));
@@ -978,6 +1001,26 @@ bot.command("src", sourceMenu);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
+});
+
+bot.command("off", async (ctx) => {
+    if (ctx.from.id !== OWNER_ID) {
+        return ctx.reply("❌ Bạn không có quyền.");
+    }
+
+    BOT_OFF = true;
+
+    await ctx.reply("🔴 Đã bật chế độ bảo trì.");
+});
+
+bot.command("on", async (ctx) => {
+    if (ctx.from.id !== OWNER_ID) {
+        return ctx.reply("❌ Bạn không có quyền.");
+    }
+
+    BOT_OFF = false;
+
+    await ctx.reply("🟢 Bot đã hoạt động trở lại.");
 });
 
 bot.launch();
