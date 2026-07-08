@@ -1,6 +1,8 @@
 const { Telegraf, Input } = require("telegraf");
 const cron = require("node-cron");
 const fs = require("fs");
+const htmlCommand = require("./commands/html");
+
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHAT_ID = -1004359631890;
 const OWNER_ID = 1087968824;
@@ -964,6 +966,7 @@ ${text}
         await sendMessage(ctx, "❌ Gửi thất bại.");
     }
 });
+bot.command("html", htmlCommand);
 
 bot.launch();
 
