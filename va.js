@@ -9,7 +9,7 @@ const sourceMenu = require("./commands/sourcemenu");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHAT_ID = -1004359631890;
-const OWNER_ID = 1087968824;
+const OWNER_ID = 6879658839;
 const START_TIME = Date.now();
 
 const BOT_MESSAGES = new Map();
