@@ -175,7 +175,7 @@ bot.start((ctx) => {
         Markup.keyboard([
             ["/admin", "/src"],
             ["/dns", "/whois"],
-            ["/ip", "/info"],
+            ["/net", "/info"],
             ["/headers", "/redirect"]
         ])
         .resize()
