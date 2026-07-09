@@ -7,10 +7,12 @@ module.exports = async (ctx) => {
     return ctx.reply('❌ Ví dụ:\\n/whois google.com');
   }
 
-  let domain = args[0]
-    .replace(/^https?:\\/\\//, '')
-    .split('/')[0]
-    .trim();
+  let domain = args[0];
+
+domain = domain
+    .replace("https://", "")
+    .replace("http://", "")
+    .split("/")[0];
 
   try {
     const { data } = await axios.get(`https://rdap.org/domain/${domain}`, {
