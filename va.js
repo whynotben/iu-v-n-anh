@@ -16,12 +16,21 @@ const whoisCommand = require('./commands/whois');
 const USERS_FILE = "users.json";
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
+
 bot.use(async (ctx, next) => {
     if (ctx.from) {
         let users = [];
 
         if (fs.existsSync(USERS_FILE)) {
-            users = JSON.parse(fs.readFileSync(USERS_FILE));
+            try {
+                users = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+
+                if (!Array.isArray(users)) {
+                    users = [];
+                }
+            } catch (e) {
+                users = [];
+            }
         }
 
         if (!users.find(u => u.id === ctx.from.id)) {
@@ -32,7 +41,11 @@ bot.use(async (ctx, next) => {
                 time: new Date().toLocaleString("vi-VN")
             });
 
-            fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+            fs.writeFileSync(
+                USERS_FILE,
+                JSON.stringify(users, null, 2),
+                "utf8"
+            );
         }
     }
 
