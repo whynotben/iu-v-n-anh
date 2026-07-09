@@ -172,7 +172,7 @@ bot.start((ctx) => {
     ctx.reply(
         "👋 Chào mừng đến BenDev Bot!",
         Markup.keyboard([
-            ["/menu", "/src"],
+            ["/admin", "/src"],
             ["/dns", "/whois"],
             ["/ip", "/info"],
             ["/headers", "/redirect"]
