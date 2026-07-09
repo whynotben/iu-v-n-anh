@@ -15,6 +15,7 @@ const sitemapCommand = require("./commands/sitemap");
 const whoisCommand = require('./commands/whois');
 const USERS_FILE = "users.json";
 const ipCommand = require("./commands/ip");
+const geoipCommand = require("./commands/geoip");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -1077,6 +1078,7 @@ bot.command("robots", robotsCommand);
 bot.command("sitemap", sitemapCommand);
 bot.command('whois', whoisCommand);
 bot.command("ip", ipCommand);
+bot.command("geoip", geoipCommand);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
