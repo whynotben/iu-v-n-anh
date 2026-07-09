@@ -6,6 +6,7 @@ const infoCommand = require("./commands/info");
 const cssCommand = require("./commands/css");
 const jsCommand = require("./commands/js");
 const sourceMenu = require("./commands/sourcemenu");
+const networkMenu = require("./commands/network/menu");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHAT_ID = -1004359631890;
@@ -1014,6 +1015,7 @@ bot.command("info", infoCommand);
 bot.command("css", cssCommand);
 bot.command("js", jsCommand);
 bot.command("src", sourceMenu);
+bot.command("net", networkMenu);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
