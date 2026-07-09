@@ -1101,9 +1101,36 @@ bot.command("off", async (ctx) => {
     }
 
     BOT_OFF = true;
-    console.log("BOT_OFF =", BOT_OFF);
 
-    ctx.reply("🔴 Đã bật chế độ bảo trì.");
+    ctx.reply("🔴 Đã bật chế độ bảo trì.\n📢 Đang gửi thông báo...");
+
+    try {
+        const users = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+
+        for (const user of users) {
+            try {
+                await bot.telegram.sendMessage(
+                    user.id,
+`🔴 BOT TẠM BẢO TRÌ
+
+⚠️ Bot hiện đang được bảo trì để cập nhật và sửa lỗi.
+
+⏳ Vui lòng quay lại sau.
+
+📞 Hỗ trợ: @whynotben
+
+💻 BenDev Team`
+                );
+            } catch (e) {
+                // Bỏ qua nếu user chặn bot
+            }
+        }
+
+        ctx.reply(`✅ Đã gửi thông báo cho ${users.length} người dùng.`);
+    } catch (err) {
+        console.log(err);
+        ctx.reply("⚠️ Không thể gửi thông báo.");
+    }
 });
 
 bot.command("on", async (ctx) => {
@@ -1115,7 +1142,34 @@ bot.command("on", async (ctx) => {
     }
 
     BOT_OFF = false;
-    ctx.reply("🟢 Bot đã hoạt động trở lại.");
+
+    ctx.reply("🟢 Bot đã hoạt động trở lại.\n📢 Đang gửi thông báo...");
+
+    try {
+        const users = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+
+        for (const user of users) {
+            try {
+                await bot.telegram.sendMessage(
+                    user.id,
+`🟢 BOT ĐÃ HOẠT ĐỘNG TRỞ LẠI
+
+✅ Hệ thống đã kết thúc bảo trì.
+
+🚀 Bạn có thể tiếp tục sử dụng bot bình thường.
+
+💻 BenDev Team`
+                );
+            } catch (e) {
+                // Bỏ qua nếu user chặn bot hoặc chưa từng bấm /start
+            }
+        }
+
+        ctx.reply(`✅ Đã gửi thông báo cho ${users.length} người dùng.`);
+    } catch (err) {
+        console.log(err);
+        ctx.reply("⚠️ Không thể gửi thông báo.");
+    }
 });
 
 bot.command("users", (ctx) => {
