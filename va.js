@@ -79,7 +79,13 @@ let BOT_OFF = false;
 bot.use(async (ctx, next) => {
     const userId = ctx.from.id;
     const text = ctx.message?.text || "";
-
+console.log("CHECK:", {
+    BOT_OFF,
+    user: userId,
+    owner: OWNER_ID,
+    admin: ADMINS.includes(userId),
+    text
+});
     // Luôn cho phép owner/admin dùng /on và /off
     if (
         userId === OWNER_ID ||
@@ -1093,6 +1099,8 @@ bot.command("off", async (ctx) => {
     }
 
     BOT_OFF = true;
+    console.log("BOT_OFF =", BOT_OFF);
+
     ctx.reply("🔴 Đã bật chế độ bảo trì.");
 });
 
