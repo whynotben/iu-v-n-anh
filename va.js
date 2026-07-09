@@ -12,6 +12,7 @@ const headersCommand = require("./commands/headers");
 const redirectCommand = require("./commands/redirect");
 const robotsCommand = require("./commands/robots");
 const sitemapCommand = require("./commands/sitemap");
+const whoisCommand = require('./commands/whois');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHAT_ID = -1004359631890;
@@ -1026,6 +1027,7 @@ bot.command("headers", headersCommand);
 bot.command("redirect", redirectCommand);
 bot.command("robots", robotsCommand);
 bot.command("sitemap", sitemapCommand);
+bot.command('whois', whoisCommand);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
