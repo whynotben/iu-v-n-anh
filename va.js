@@ -168,8 +168,18 @@ async function autoDelete(ctx, text, delay = 300000) {
 
 }
 
-bot.start(async (ctx) => {
-    await sendMessage(ctx, "🤖 Bot đã hoạt động!");
+bot.start((ctx) => {
+    ctx.reply(
+        "👋 Chào mừng đến BenDev Bot!",
+        Markup.keyboard([
+            ["/menu", "/src"],
+            ["/dns", "/whois"],
+            ["/ip", "/info"],
+            ["/headers", "/redirect"]
+        ])
+        .resize()
+        .persistent()
+    );
 });
 
 bot.command("ping", async (ctx) => {
