@@ -13,8 +13,32 @@ const redirectCommand = require("./commands/redirect");
 const robotsCommand = require("./commands/robots");
 const sitemapCommand = require("./commands/sitemap");
 const whoisCommand = require('./commands/whois');
+const USERS_FILE = "users.json";
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
+bot.use(async (ctx, next) => {
+    if (ctx.from) {
+        let users = [];
+
+        if (fs.existsSync(USERS_FILE)) {
+            users = JSON.parse(fs.readFileSync(USERS_FILE));
+        }
+
+        if (!users.find(u => u.id === ctx.from.id)) {
+            users.push({
+                id: ctx.from.id,
+                username: ctx.from.username || "Không có",
+                name: `${ctx.from.first_name || ""} ${ctx.from.last_name || ""}`.trim(),
+                time: new Date().toLocaleString("vi-VN")
+            });
+
+            fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+        }
+    }
+
+    return next();
+});
+
 const CHAT_ID = -1004359631890;
 const OWNER_ID = 1087968824;
 const START_TIME = Date.now();
@@ -1055,6 +1079,29 @@ bot.command("on", async (ctx) => {
 
     BOT_OFF = false;
     ctx.reply("🟢 Bot đã hoạt động trở lại.");
+});
+
+bot.command("users", (ctx) => {
+    if (ctx.from.id !== OWNER_ID) {
+        return ctx.reply("❌ Chỉ Owner được dùng.");
+    }
+
+    if (!fs.existsSync(USERS_FILE)) {
+        return ctx.reply("Chưa có dữ liệu.");
+    }
+
+    const users = JSON.parse(fs.readFileSync(USERS_FILE));
+
+    let msg = `👥 ĐÃ CÓ ${users.length} NGƯỜI DÙNG BOT\n\n`;
+
+    users.forEach((u, i) => {
+        msg += `${i + 1}. ${u.name}\n`;
+        msg += `🆔 ${u.id}\n`;
+        msg += `👤 @${u.username}\n`;
+        msg += `🕒 ${u.time}\n\n`;
+    });
+
+    ctx.reply(msg);
 });
 
 bot.launch();
