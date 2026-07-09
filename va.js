@@ -8,6 +8,7 @@ const jsCommand = require("./commands/js");
 const sourceMenu = require("./commands/sourcemenu");
 const networkMenu = require("./commands/menu");
 const dnsCommand = require("./commands/dns");
+const headersCommand = require("./commands/headers");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const CHAT_ID = -1004359631890;
@@ -1018,6 +1019,7 @@ bot.command("js", jsCommand);
 bot.command("src", sourceMenu);
 bot.command("net", networkMenu);
 bot.command("dns", dnsCommand);
+bot.command("headers", headersCommand);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
