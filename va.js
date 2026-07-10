@@ -20,6 +20,8 @@ const sslCommand = require("./commands/ssl");
 const securityCommand = require("./commands/security");
 const hashCommand = require("./commands/hash");
 const base64Command = require("./commands/base64");
+const uuidCommand = require("./commands/uuid");
+bot.command("uuid", uuidCommand);
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
