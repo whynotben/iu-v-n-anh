@@ -1101,7 +1101,6 @@ bot.command("uuid", uuidCommand);
 bot.command("http", httpCommand);
 bot.command("github", githubCommand);
 bot.command("npm", npmCommand);
-bot.command("tools", networkMenu);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
