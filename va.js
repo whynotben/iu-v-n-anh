@@ -180,15 +180,12 @@ async function autoDelete(ctx, text, delay = 300000) {
 
 bot.start((ctx) => {
     ctx.reply(
-        "👋 Chào mừng đến BenDev Bot!",
-        Markup.keyboard([
-            ["/admin", "/net"],
-            ["/src", "/id"]
-        ])
-        .resize()
-        .persistent()
-    );
-});
+    "📱 Đã cập nhật menu.",
+    Markup.keyboard([
+        ["/admin", "/net"],
+        ["/src", "/id"]
+    ]).resize()
+);
 
 bot.command("ping", async (ctx) => {
     await autoDelete(ctx, "🏓 Pong!", 300000);
