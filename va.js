@@ -24,6 +24,7 @@ const uuidCommand = require("./commands/uuid");
 const httpCommand = require("./commands/http");
 const githubCommand = require("./commands/github");
 const npmCommand = require("./commands/npm");
+const sourcecodeCommand = require("./commands/sourcecode");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -1108,6 +1109,7 @@ bot.command("uuid", uuidCommand);
 bot.command("http", httpCommand);
 bot.command("github", githubCommand);
 bot.command("npm", npmCommand);
+bot.command("sourcecode", sourcecodeCommand);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
