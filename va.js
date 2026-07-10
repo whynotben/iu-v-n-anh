@@ -29,6 +29,7 @@ const titleCommand = require("./commands/title");
 const cookiesCommand = require("./commands/cookies");
 const linksCommand = require("./commands/links");
 const techCommand = require("./commands/tech");
+const websiteCommand = require("./commands/website");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -1118,6 +1119,7 @@ bot.command("title", titleCommand);
 bot.command("cookies", cookiesCommand);
 bot.command("links", linksCommand);
 bot.command("tech", techCommand);
+bot.command("website", websiteCommand);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
