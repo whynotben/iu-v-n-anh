@@ -13,6 +13,7 @@ module.exports = async (ctx) => {
 🗺 /sitemap <url>
 🔒 /ssl <domain>
 ↪️ /redirect <url>
+🔐 /security <domain>
 
 ━━━━━━━━━━━━━━━━━━━━
 💻 BenDev Team
