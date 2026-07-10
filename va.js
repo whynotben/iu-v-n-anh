@@ -186,9 +186,11 @@ async function autoDelete(ctx, text, delay = 300000) {
 
 bot.start((ctx) => {
     ctx.reply(
-        "👋 Chào mừng đến BenDev Bot!",
+        `👋 Chào mừng đến BenDev Bot!
+
+Sử dụng menu bên dưới để bắt đầu.`,
         Markup.keyboard([
-            ["/admin", "/net"],
+            ["/admin", "/tools"],
             ["/src", "/id"]
         ])
         .resize()
