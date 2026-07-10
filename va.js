@@ -1215,7 +1215,7 @@ bot.command("updatekb", async (ctx) => {
                 user.id,
                 "🔄 Menu đã được cập nhật.",
                 Markup.keyboard([
-                    ["/admin", "/net"],
+                    ["/admin", "/tools"],
                     ["/src", "/id"]
                 ]).resize()
             );
