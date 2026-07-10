@@ -180,12 +180,15 @@ async function autoDelete(ctx, text, delay = 300000) {
 
 bot.start((ctx) => {
     ctx.reply(
-    "📱 Đã cập nhật menu.",
-    Markup.keyboard([
-        ["/admin", "/net"],
-        ["/src", "/id"]
-    ]).resize()
-);
+        "👋 Chào mừng đến BenDev Bot!",
+        Markup.keyboard([
+            ["/admin", "/net"],
+            ["/src", "/id"]
+        ])
+        .resize()
+        .persistent()
+    );
+});
 
 bot.command("ping", async (ctx) => {
     await autoDelete(ctx, "🏓 Pong!", 300000);
@@ -1167,6 +1170,42 @@ bot.command("on", async (ctx) => {
         console.log(err);
         ctx.reply("⚠️ Không thể gửi thông báo.");
     }
+});
+
+bot.command("updatekb", async (ctx) => {
+    if (
+        ctx.from.id !== OWNER_ID &&
+        !ADMINS.includes(ctx.from.id)
+    ) {
+        return ctx.reply("❌ Bạn không có quyền.");
+    }
+
+    let users = [];
+
+    if (fs.existsSync(USERS_FILE)) {
+        users = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+    }
+
+    let success = 0;
+
+    for (const user of users) {
+        try {
+            await bot.telegram.sendMessage(
+                user.id,
+                "🔄 Menu đã được cập nhật.",
+                Markup.keyboard([
+                    ["/admin", "/net"],
+                    ["/src", "/id"]
+                ]).resize()
+            );
+
+            success++;
+        } catch (e) {
+            console.log(`Không gửi được cho ${user.id}`);
+        }
+    }
+
+    ctx.reply(`✅ Đã cập nhật menu cho ${success}/${users.length} người.`);
 });
 
 bot.command("users", (ctx) => {
