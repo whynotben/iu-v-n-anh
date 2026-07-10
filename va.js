@@ -184,8 +184,15 @@ async function autoDelete(ctx, text, delay = 300000) {
 
 }
 
-bot.start((ctx) => {
-    ctx.reply(
+bot.start(async (ctx) => {
+    // Xóa keyboard cũ
+    await ctx.reply(
+        "🔄 Đang cập nhật menu...",
+        Markup.removeKeyboard()
+    );
+
+    // Gửi keyboard mới
+    await ctx.reply(
         `👋 Chào mừng đến BenDev Bot!
 
 Sử dụng menu bên dưới để bắt đầu.`,
