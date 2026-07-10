@@ -21,6 +21,7 @@ const securityCommand = require("./commands/security");
 const hashCommand = require("./commands/hash");
 const base64Command = require("./commands/base64");
 const uuidCommand = require("./commands/uuid");
+const httpCommand = require("./commands/http");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -1093,6 +1094,7 @@ bot.command("security", securityCommand);
 bot.command("hash", hashCommand);
 bot.command("base64", base64Command);
 bot.command("uuid", uuidCommand);
+bot.command("http", httpCommand);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
