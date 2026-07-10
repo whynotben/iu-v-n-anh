@@ -26,6 +26,7 @@ const githubCommand = require("./commands/github");
 const npmCommand = require("./commands/npm");
 const sourcecodeCommand = require("./commands/sourcecode");
 const titleCommand = require("./commands/title");
+const cookiesCommand = require("./commands/cookies");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -1112,6 +1113,7 @@ bot.command("github", githubCommand);
 bot.command("npm", npmCommand);
 bot.command("sourcecode", sourcecodeCommand);
 bot.command("title", titleCommand);
+bot.command("cookies", cookiesCommand);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
