@@ -18,6 +18,7 @@ const ipCommand = require("./commands/ip");
 const geoipCommand = require("./commands/geoip");
 const sslCommand = require("./commands/ssl");
 const securityCommand = require("./commands/security");
+const hashCommand = require("./commands/hash");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -1087,6 +1088,7 @@ bot.command("ip", ipCommand);
 bot.command("geoip", geoipCommand);
 bot.command("ssl", sslCommand);
 bot.command("security", securityCommand);
+bot.command("hash", hashCommand);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
