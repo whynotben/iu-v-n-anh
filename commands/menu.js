@@ -72,9 +72,6 @@ module.exports = async (ctx) => {
 ⚡ /tech
 ↳ Phát hiện công nghệ
 
-🍪 /cookies
-↳ Liệt kê Cookie
-
 🔗 /links
 ↳ Liệt kê liên kết
 
