@@ -1082,7 +1082,7 @@ bot.command("info", infoCommand);
 bot.command("css", cssCommand);
 bot.command("js", jsCommand);
 bot.command("src", sourceMenu);
-bot.command("net", networkMenu);
+bot.command("tools", networkMenu);
 bot.command("dns", dnsCommand);
 bot.command("headers", headersCommand);
 bot.command("redirect", redirectCommand);
@@ -1099,6 +1099,7 @@ bot.command("uuid", uuidCommand);
 bot.command("http", httpCommand);
 bot.command("github", githubCommand);
 bot.command("npm", npmCommand);
+bot.command("tools", networkMenu);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
