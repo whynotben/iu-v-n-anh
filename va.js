@@ -182,9 +182,10 @@ bot.start((ctx) => {
     ctx.reply(
         "👋 Chào mừng đến BenDev Bot!",
         Markup.keyboard([
-    ["/admin", "/net"],
-    ["/src", "/id"]
-]).resize();
+            ["/admin", "/net"],
+            ["/src", "/id"]
+        ])
+        .resize()
         .persistent()
     );
 });
