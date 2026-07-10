@@ -37,7 +37,8 @@ module.exports = async (ctx) => {
 
 🌐 /http <url>
 ↳ Kiểm tra phản hồi HTTP của website
-
+⌨️ /sourcecode <url>
+↳ Xem source HTML
 ━━━━━━━━━━━━━━━━━━
 
 💻 DEVELOPER
