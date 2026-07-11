@@ -77,5 +77,21 @@ module.exports = async (ctx) => {
 
 ━━━━━━━━━━━━━━━━━━
 
-💻 BenDev Team`);
+🍎 APPLE TOOLS
+
+📱 /udid
+↳ Tra cứu thông tin thiết bị từ UDID
+
+📥 /createudid
+↳ Tạo link cài Profile lấy UDID
+
+📡 /checksession
+↳ Kiểm tra kết quả Session
+
+🟢 /udidstatus
+↳ Kiểm tra trạng thái API
+
+━━━━━━━━━━━━━━━━━━
+
+💻 Powered by BenDev Team`);
 };
