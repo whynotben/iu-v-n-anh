@@ -71,8 +71,6 @@ ${new Date(d.expiresAt).toLocaleString("vi-VN")}
 
 6️⃣ Sau khi cài xong quay lại bot.
 
-7️⃣ Gõ:
-
 
 ⚠️ Không mở trực tiếp bằng Telegram vì Telegram sẽ tải file (.mobileconfig) thay vì chuyển sang Safari.
 
