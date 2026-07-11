@@ -49,7 +49,9 @@ Dùng:
 
         const d = data.data;
 
-        if (d.status !== "completed") {
+        const status = (d.status || "").toLowerCase();
+
+        if (status !== "complete" && status !== "completed") {
 
             return ctx.reply(
 `🟡 SESSION STATUS
@@ -76,19 +78,19 @@ Hãy mở Safari và cài Profile.
 ━━━━━━━━━━━━━━━━━━
 
 🆔 UDID
-${d.udid}
+${d.udid || "Unknown"}
 
 📱 Product
-${d.product}
+${d.product || "Unknown"}
 
 🍎 iOS Version
-${d.version}
+${d.version || "Unknown"}
 
 📦 Platform
-${d.platform}
+${d.platform || "Unknown"}
 
 🕒 Received
-${new Date(d.receivedAt).toLocaleString("vi-VN")}
+${d.receivedAt ? new Date(d.receivedAt).toLocaleString("vi-VN") : "Unknown"}
 
 ━━━━━━━━━━━━━━━━━━
 
