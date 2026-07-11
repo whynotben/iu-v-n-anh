@@ -85,9 +85,6 @@ module.exports = async (ctx) => {
 📥 /createudid
 ↳ Tạo link cài Profile lấy UDID
 
-📡 /checksession
-↳ Kiểm tra kết quả Session
-
 🟢 /udidstatus
 ↳ Kiểm tra trạng thái API
 
