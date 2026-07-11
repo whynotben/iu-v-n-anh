@@ -48,7 +48,8 @@ Dùng:
         );
 
         const d = data.data;
-
+        console.log(JSON.stringify(data, null, 2));
+        
         const status = (d.status || "").toLowerCase();
 
         if (status !== "complete" && status !== "completed") {
