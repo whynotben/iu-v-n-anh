@@ -25,7 +25,9 @@ module.exports = async (ctx) => {
         let sessions = {};
 
         if (fs.existsSync(sessionFile)) {
-            sessions = JSON.parse(fs.readFileSync(sessionFile, "utf8"));
+            sessions = JSON.parse(
+                fs.readFileSync(sessionFile, "utf8")
+            );
         }
 
         sessions[ctx.from.id] = {
@@ -33,7 +35,10 @@ module.exports = async (ctx) => {
             pollToken: d.pollToken
         };
 
-        fs.writeFileSync(sessionFile, JSON.stringify(sessions, null, 2));
+        fs.writeFileSync(
+            sessionFile,
+            JSON.stringify(sessions, null, 2)
+        );
 
         await ctx.reply(
 `🍎 CREATE UDID SESSION
@@ -64,7 +69,9 @@ ${new Date(d.expiresAt).toLocaleString("vi-VN")}
 
 5️⃣ Tải và cài Hồ sơ cấu hình.
 
-6️⃣ Quay lại bot và nhập:
+6️⃣ Sau khi cài xong quay lại bot.
+
+7️⃣ Gõ:
 
 /checksession
 
@@ -73,7 +80,29 @@ ${new Date(d.expiresAt).toLocaleString("vi-VN")}
 ━━━━━━━━━━━━━━━━━━
 
 💻 Powered by BenDev Team`,
-{
-    disable_web_page_preview: true
-}
-);
+            {
+                disable_web_page_preview: true
+            }
+        );
+
+    } catch (err) {
+
+        if (err.response) {
+
+            return ctx.reply(
+`❌ CREATE SESSION FAILED
+
+HTTP ${err.response.status}
+
+${JSON.stringify(err.response.data, null, 2)}`
+            );
+
+        }
+
+        return ctx.reply(
+`❌ ${err.message}`
+        );
+
+    }
+
+};
