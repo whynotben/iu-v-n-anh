@@ -1,21 +1,39 @@
 const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+
+const sessionFile = path.join(__dirname, "../data/sessions.json");
 
 module.exports = async (ctx) => {
 
-    const args = ctx.message.text.split(" ").slice(1);
-
-    if (args.length < 2) {
+    if (!fs.existsSync(sessionFile)) {
         return ctx.reply(
-`🍎 CHECK SESSION
+`❌ Bạn chưa tạo Session.
 
-Ví dụ:
+Dùng:
 
-/checksession <sessionId> <pollToken>`
+/createudid`
         );
     }
 
-    const sessionId = args[0];
-    const pollToken = args[1];
+    const sessions = JSON.parse(
+        fs.readFileSync(sessionFile, "utf8")
+    );
+
+    const user = sessions[ctx.from.id];
+
+    if (!user) {
+        return ctx.reply(
+`❌ Bạn chưa tạo Session.
+
+Dùng:
+
+/createudid`
+        );
+    }
+
+    const sessionId = user.sessionId;
+    const pollToken = user.pollToken;
 
     try {
 
@@ -75,6 +93,13 @@ ${new Date(d.receivedAt).toLocaleString("vi-VN")}
 ━━━━━━━━━━━━━━━━━━
 
 💻 Powered by BenDev Team`
+        );
+
+        delete sessions[ctx.from.id];
+
+        fs.writeFileSync(
+            sessionFile,
+            JSON.stringify(sessions, null, 2)
         );
 
     } catch (err) {
