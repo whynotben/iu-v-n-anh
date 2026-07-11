@@ -33,6 +33,7 @@ const websiteCommand = require("./commands/website");
 const lagffCommand = require("./commands/lagff");
 const udidCommand = require("./commands/udid");
 const udidStatus = require("./commands/udidstatus");
+const createUdid = require("./commands/createudid");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -1126,6 +1127,7 @@ bot.command("website", websiteCommand);
 bot.command("lagff", lagffCommand);
 bot.command("udid", udidCommand);
 bot.command("udidstatus", udidStatus);
+bot.command("createudid", createUdid);
 
 bot.command("test", (ctx) => {
     ctx.reply("OK");
