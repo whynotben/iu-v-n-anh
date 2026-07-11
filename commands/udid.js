@@ -5,7 +5,7 @@ module.exports = async (ctx) => {
 
     if (!args.length) {
         return ctx.reply(
-`📱 UDID LOOKUP
+`🍎 UDID LOOKUP
 
 Ví dụ:
 
@@ -32,10 +32,30 @@ Ví dụ:
 
         const d = data.data;
 
-        await ctx.reply(
-`✅ UDID LOOKUP
+        const sourceMap = {
+            apple_validate: "Apple Validate",
+            duod: "DUOD",
+            local_dataset: "Local Dataset"
+        };
 
-━━━━━━━━━━━━━━━
+        const deviceName = d.deviceClass
+            ? d.deviceClass.toLowerCase() === "iphone"
+                ? "iPhone"
+                : d.deviceClass.charAt(0).toUpperCase() + d.deviceClass.slice(1)
+            : "Unknown";
+
+        const platformName = d.platform
+            ? d.platform.toLowerCase() === "ios"
+                ? "iOS"
+                : d.platform.charAt(0).toUpperCase() + d.platform.slice(1)
+            : "Unknown";
+
+        const checkedTime = new Date(d.checkedAt).toLocaleString("vi-VN");
+
+        await ctx.reply(
+`🍎 UDID LOOKUP
+
+━━━━━━━━━━━━━━━━━━
 
 🆔 UDID
 ${d.udid}
@@ -44,23 +64,23 @@ ${d.udid}
 ${d.model}
 
 📦 Device
-${d.deviceClass || "Unknown"}
+${deviceName}
 
 🍎 Platform
-${d.platform || "Unknown"}
+${platformName}
 
-📡 Source
-${d.source}
+🛰 Source
+${sourceMap[d.source] || d.source}
 
 💾 Cached
-${d.cached ? "Yes" : "No"}
+${d.cached ? "✅ Yes" : "❌ No"}
 
 🕒 Checked
-${d.checkedAt}
+${checkedTime}
 
-━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━
 
-💻 BenDev Team`
+💻 Powered by BenDev Team`
         );
 
     } catch (err) {
@@ -70,9 +90,9 @@ ${d.checkedAt}
             const e = err.response.data?.error;
 
             return ctx.reply(
-`❌ Lookup thất bại
+`❌ UDID Lookup thất bại
 
-Code: ${err.response.status}
+📄 HTTP: ${err.response.status}
 
 ${e?.code || "UNKNOWN"}
 
