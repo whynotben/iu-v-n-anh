@@ -73,7 +73,6 @@ ${new Date(d.expiresAt).toLocaleString("vi-VN")}
 
 7️⃣ Gõ:
 
-/checksession
 
 ⚠️ Không mở trực tiếp bằng Telegram vì Telegram sẽ tải file (.mobileconfig) thay vì chuyển sang Safari.
 
