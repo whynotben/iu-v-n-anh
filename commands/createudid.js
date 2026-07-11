@@ -2,7 +2,7 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 
-const sessionFile = path.join(__dirname, "../data/sessions.json");
+const sessionFile = path.join(__dirname, "../sessions.json");
 
 module.exports = async (ctx) => {
     try {
