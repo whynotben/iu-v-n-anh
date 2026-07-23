@@ -17,7 +17,7 @@ module.exports = {
 
     try {
       // 1. Gọi API
-      const response = await axios.get('https://URL_API_CUA_BAN/api/bypasslayma', {
+      const response = await axios.get('https://tyler-mentioned-transformation-california.trycloudflare.com/api/bypasslayma?link=https://layma.net/GQUQdzvO8', {
         params: { link: targetLink },
         timeout: 15000
       });
