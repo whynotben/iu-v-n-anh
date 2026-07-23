@@ -1,60 +1,52 @@
-const axios = require("axios");
+const axios = require('axios');
 
-module.exports = async (ctx) => {
+// URL API bypass của bạn
+const API_ENDPOINT = 'https://tyler-mentioned-transformation-california.trycloudflare.com/api/bypasslayma';
 
-    const args = ctx.message.text.split(" ").slice(1);
-
-    if (!args.length) {
-        return ctx.reply(
-`🔗 LAYMA BYPASS
-
-Ví dụ:
-
-/layma https://layma.net/xxxxx`
-        );
-    }
-
-    const link = args[0];
+module.exports = {
+  name: 'bypass',
+  async execute(ctx, targetLink) {
+    const statusMsg = await ctx.reply("⏳ Đang xử lý link, vui lòng chờ...");
 
     try {
+      const response = await axios.get(API_ENDPOINT, {
+        params: { link: targetLink },
+        timeout: 15000
+      });
 
-        const { data } = await axios.get(
-            "https://tyler-mentioned-transformation-california.trycloudflare.com/api/bypasslayma",
-            {
-                params: {
-                    link
-                },
-                timeout: 15000
-            }
+      const data = response.data;
+
+      if (data && data.success && data.link) {
+        const resultText = 
+          "✅ *Bypass thành công!*\n\n" +
+          `🔑 *Token:* \`${data.token || 'N/A'}\`\n` +
+          `🔗 *Link đích:* ${data.link}\n` +
+          `⚡ *Thời gian:* \`${data.responseTime || 'N/A'}\``;
+
+        await ctx.telegram.editMessageText(
+          ctx.chat.id,
+          statusMsg.message_id,
+          null,
+          resultText,
+          { parse_mode: 'Markdown', disable_web_page_preview: true }
         );
-
-        return ctx.reply(
-`✅ KẾT QUẢ
-
-\`\`\`json
-${JSON.stringify(data, null, 2)}
-\`\`\``,
-            {
-                parse_mode: "Markdown"
-            }
+      } else {
+        await ctx.telegram.editMessageText(
+          ctx.chat.id,
+          statusMsg.message_id,
+          null,
+          `❌ *Thất bại:* ${data?.error || "Không lấy được link"}`,
+          { parse_mode: 'Markdown' }
         );
-
-    } catch (err) {
-
-        if (err.response) {
-            return ctx.reply(
-`❌ API ERROR
-
-HTTP ${err.response.status}
-
-${JSON.stringify(err.response.data, null, 2)}`
-            );
-        }
-
-        return ctx.reply(
-`❌ ${err.message}`
-        );
-
+      }
+    } catch (error) {
+      await ctx.telegram.editMessageText(
+        ctx.chat.id,
+        statusMsg.message_id,
+        null,
+        `❌ *Lỗi kết nối API:* ${error.message}`,
+        { parse_mode: 'Markdown' }
+      );
     }
-
+  }
 };
